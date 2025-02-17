@@ -1,4 +1,4 @@
-# CineTeh
+# CineTech
 
 1° Catalogo de filmes
 
