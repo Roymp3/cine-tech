@@ -7,3 +7,6 @@
 3° Mostrar filmes em cartaz
 
 4° Mostrar filmes mais populares do momento
+
+5° Pesquisar filmes e series
+
