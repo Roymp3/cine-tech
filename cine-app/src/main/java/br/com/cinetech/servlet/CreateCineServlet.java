@@ -17,13 +17,13 @@ public class CreateCineServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String name = request.getParameter("cine-name");
-        Movie movie = new Movie();
-        movie.setName(name);
+        Movie movie = new Movie(name);
+
 
             MovieDao moviedao = new MovieDao();
             moviedao.CreateMovie(movie);
 
-        request.getRequestDispatcher("index.html").forward(request, response);
+        request.getRequestDispatcher("/find-all-movies");
 
 
     }
