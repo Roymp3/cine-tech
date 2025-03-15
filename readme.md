@@ -16,3 +16,8 @@
 6° Menu lateral
 
 ![Tela de menu-lateral](/prototypes/menu-lateral.png)
+
+7° Pesquisar filme/serie
+
+![Tela de menu-pesquisa](/prototypes/tela-pesquisa.png)
+
