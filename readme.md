@@ -1,7 +1,7 @@
 # CineTech
 
 1° Cadastro de usuario
-
+![Tela de Cadastro](/prototypes/Tela-de-Cadastro.png)
 2° Login de usuario
 ![Tela de login](/prototypes/login.PNG)
 
