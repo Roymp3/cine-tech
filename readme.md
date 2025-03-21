@@ -26,6 +26,11 @@
 7° Pesquisar filme/serie
 
 ![Tela de menu-pesquisa](/prototypes/tela-pesquisa.png)
+
+8° Paginia incial adm
+
+![Tela de menu-pesquisa](/prototypes/imagem_2025-03-21_200845370.png)
+
 ## MER do projeto
 
 ![Print do MER](/prototypes/MER.png)
