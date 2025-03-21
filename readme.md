@@ -1,5 +1,7 @@
 # CineTech
 
+## Prototipos
+
 1° Cadastro de usuario
 ![Tela de Cadastro](/prototypes/Tela-de-Cadastro.png)
 2° Login de usuario
@@ -20,4 +22,8 @@
 7° Pesquisar filme/serie
 
 ![Tela de menu-pesquisa](/prototypes/tela-pesquisa.png)
+## MER do projeto
+
+![Print do MER](/prototypes/MER.png)
+
 
