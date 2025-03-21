@@ -7,19 +7,19 @@
 2° Login de usuario
 ![Tela de login](/prototypes/login.PNG)
 
-3° Mostrar filmes em cartaz
+3° Tela de perfil de usuário 
 
-4° Mostrar filmes mais populares do momento
+![Tela de usuário](/prototypes/teladeusuario.png)
 
-5° Feedbak e nota do filme/serie
+4° Feedbak e nota do filme/serie
 
 ![Tela de review](/prototypes/review.png)
 
-6° Menu lateral
+5° Menu lateral
 
 ![Tela de menu-lateral](/prototypes/menu-lateral.png)
 
-7° Pesquisar filme/serie
+6° Pesquisar filme/serie
 
 ![Tela de menu-pesquisa](/prototypes/tela-pesquisa.png)
 ## MER do projeto
