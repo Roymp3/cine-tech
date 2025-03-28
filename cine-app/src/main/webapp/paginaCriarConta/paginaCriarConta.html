@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Crie sua conta!</title>
+        <link rel="stylesheet" href="paginaCriarConta.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <img src="../assets/images/pageCriarConta/iconCinetech.svg" alt="CineTech logo">
+            <h1>CineTech</h1>
+        </header>
+
+        <main>
+            <div class="container">
+                <h2>Crie sua conta!</h2>
+                <form action="/create-cine" method="post">
+
+                    <div class="inputsCriarConta">
+                        <label for="name">Nome:</label>
+                        <div>
+                            <img src="../assets/images/pageCriarConta/person.svg">
+                            <input type="text" name="name" id="name" placeholder="Nome Completo">
+                        </div>
+                    </div>
+
+                    <div class="inputsCriarConta">
+                        <label for="name">Nome de Usuário:</label>
+                        <div>
+                            <img src="../assets/images/pageCriarConta/person.svg">
+                            <input type="text" name="user" id="user" placeholder="Nome de Usuario">
+                        </div>
+                    </div>
+
+                    <div class="inputsCriarConta">
+                        <label for="name">Email:</label>
+                        <div>
+                            <img src="../assets/images/pageCriarConta/person.svg">
+                            <input type="email" name="email" id="email" placeholder="Exemplo: gabriel@gmail.com">
+                        </div>
+                    </div>
+
+                    <div class="inputsCriarConta">
+                        <label for="name">Telefone:</label>
+                        <div>
+                            <img src="../assets/images/pageCriarConta/person.svg">
+                            <input type="text" name="telefone" id="telefone" placeholder="(11) 93752-3424">
+                        </div>
+                    </div>
+
+                    <div class="inputsCriarConta">
+                        <label for="name">Senha:</label>
+                        <div>
+                            <img src="../assets/images/pageCriarConta/person.svg">
+                            <input type="password" name="senha" id="senha">
+                        </div>
+                    </div>
+
+                    <button type="submit">Registrar</button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <div class="rede-sociais">
+                <img src="../assets/images/pageCriarConta/twitter.png">
+                <img src="../assets/images/pageCriarConta/youtube.png">
+                <img src="../assets/images/pageCriarConta/facebook.png">
+                <img src="../assets/images/pageCriarConta/instagram.png">
+            </div>
+
+            <p>© CineTech 2024 - 2025. Todos os direitos reservados. </p>
+
+            <div class="menu">
+                <a>About</a>
+                <a>Home</a>
+                <a>Contact</a>
+            </div>
+        </footer>
+    <script src="paginaCriarConta.js"></script>
+    </body>
+</html>

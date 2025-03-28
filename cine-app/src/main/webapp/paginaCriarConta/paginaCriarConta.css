@@ -1,0 +1,217 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 100vw;
+    height: 100%;
+    width: 100%;
+    font-family: 'Inria Sans', sans-serif;
+    justify-content: space-between;
+    overflow-x: hidden;
+}
+
+header{
+    min-width: 100vw;
+    width: 100%;
+    max-height: 70px;
+    height: 100%;
+    background-color: #494850;
+    padding: 30px 30px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    h1{
+        color: white;
+        font-size: 30px;
+        margin-left: 20px;
+        font-family: 'Inria Sans', sans-serif;
+        font-weight: 700;
+    }
+}
+
+main{
+    background-color: #f6f6f6;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px;
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+        background-color: #d9d9d9;
+        max-height: 700px;
+        max-width: 650px;
+        width: 100%;
+        height: 100%;
+        padding: 50px;
+
+        border-radius: 30px;
+
+        box-shadow: 7px 7px 15px -7px rgba(0,0,0,0.6);
+
+        h2{
+            margin-bottom: 20px;
+            font-family: 'Inria Sans', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+            color: #3f3e4b;
+
+        }
+
+        .inputsCriarConta{
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            align-self: center;
+            margin-bottom: 5px;
+
+            > label{
+                font-family: 'Inria Sans', sans-serif;
+                font-weight: 700;
+                font-size: 20px;
+                margin-bottom: 5px;
+                color: #3f3e4b;
+            }
+
+            div{
+                display: flex;
+                align-items: center;
+                background-color: white;
+                border-radius: 30px;
+
+                min-height: 40px;
+                min-width: 500px;
+                width: 100%;
+                height: 100%;
+
+                padding: 0px 20px;
+
+                margin-bottom: 10px;
+
+                img{
+                    margin-right: 20px;
+                }
+
+                input{
+                    max-height: 30px;
+                    height: 100%;
+                    max-width: 400px;
+                    width: 100%;
+
+                    border: none;
+                    outline: none;
+
+                    font-family: 'Inria Sans', sans-serif;
+                    font-size: 16px;
+
+                }
+            }
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-self: center;
+        }
+
+        form > button{
+            align-self: center;
+            justify-self: end;
+            margin-top: 20px;
+
+            min-height: 50px;
+            min-width: 200px;
+
+            color: white;
+            border-radius: 30px;
+
+            font-size: 20px;
+            font-weight: 400;
+
+            background-color: #494850;
+            border: none;
+            outline: none;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        form > button:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+
+
+footer{
+    display: flex;
+    flex-direction: row;
+    min-height: 100px;
+    height: 100%;
+    background-color: #494850;
+
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 70px;
+
+    .rede-sociais{
+        display: flex;
+        max-width: 200px;
+        width: 100%;
+        justify-content: space-between;
+
+        img{
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+        }
+
+        img:hover{
+            cursor: pointer;
+        }
+    }
+
+    p{
+        color: white;
+        font-size: 15px;
+        font-family: 'Inria Sans', sans-serif;
+        font-weight: 300;
+    }
+
+    .menu{
+        display: flex;
+        max-width: 200px;
+        width: 100%;
+        justify-content: space-between;
+
+        a{
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-family: 'Inria Sans', sans-serif;
+            font-weight: 300;
+        }
+
+        a:hover{
+            cursor: pointer;
+        }
+    }
+}
