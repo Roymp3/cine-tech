@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login CineTech</title>
+    <link rel="stylesheet" href="paginaLogin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/iconCinetech.svg" alt="CineTech logo">
+    <h1>CineTech</h1>
+</header>
+
+<main>
+    <div class="container">
+        <h2>Faça seu Login</h2>
+        <form action="/login" method="post">
+
+            <div class="inputsLogin">
+                <label for="email">E-mail</label>
+                <div>
+                    <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/person.svg" alt="Ícone de pessoa">
+                    <input type="email" name="email" id="email" placeholder="Insira o seu e-mail">
+                </div>
+            </div>
+
+            <div class="inputsLogin">
+                <label for="senha">Senha</label>
+                <div>
+                    <img src="#" alt="Ícone de cadeado">
+                    <input type="password" name="senha" id="senha" placeholder="Insira a sua senha">
+                </div>
+            </div>
+
+            <div class="options">
+                <span><a href="#">Esqueci minha senha</a></span>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="manter-conectado" name="manter-conectado">
+                    <label for="manter-conectado">Manter conectado</label>
+                </div>
+            </div>
+
+            <button type="submit">Entrar</button>
+
+            <div class="register-link">
+                <span>Ainda não tenho uma <a href="#">conta</a></span>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="rede-sociais">
+        <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/twitter.png" alt="Twitter">
+        <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/youtube.png" alt="YouTube">
+        <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/facebook.png" alt="Facebook">
+        <img src="../../../../../../../Downloads/cine-tech-PaginaLogin/cine-tech-PaginaLogin/cine-app/src/main/webapp/assets/images/pageCriarConta/instagram.png" alt="Instagram">
+    </div>
+
+    <p>© CineTech 2024 - 2025. Todos os direitos reservados. </p>
+
+    <div class="menu">
+        <a href="#">About</a>
+        <a href="#">Home</a>
+        <a href="#">Contact</a>
+    </div>
+</footer>
+<script src="paginaLogin.js"></script>
+</body>
+</html>
