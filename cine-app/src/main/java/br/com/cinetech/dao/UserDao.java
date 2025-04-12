@@ -11,32 +11,27 @@ public class UserDao {
     public void CreateUser(User user) {
 
         String SQL = "INSERT INTO tb_usuario (nm_pessoa, nm_usuario, ds_senha, nr_telefone, ds_email) \n" +
-                "VALUES (?, ?, ?, ?,?);";
+                "VALUES (?, ?, ?, ?, ?);";
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa","sa");
+            Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
 
-            System.out.println("Sucess in databsae connection");
+            System.out.println("Success in database connection");
 
-
-            PreparedStatement preparedStatement =  connection.prepareStatement(SQL);
-
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
 
             preparedStatement.setString(1, user.getNm_pessoa());
             preparedStatement.setString(2, user.getNm_usuario());
             preparedStatement.setString(3, user.getSenha());
             preparedStatement.setString(4, user.getTelefone());
             preparedStatement.setString(5, user.getEmail());
+
             preparedStatement.execute();
 
-            System.out.println("Sucess in insert user");
-
+            System.out.println("Success in insert user");
 
         } catch (Exception e) {
-
-
             System.out.println("Error closing connection: " + e.getMessage());
         }
-
     }
 }

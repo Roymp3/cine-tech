@@ -22,11 +22,10 @@ public class CreateUserServlet extends HttpServlet {
         String nr_telefone = request.getParameter("telefone");
         String ds_email = request.getParameter("email");
 
+        // Ordem corrigida
         User user = new User(nm_pessoa, nm_usuario, ds_senha, nr_telefone, ds_email);
-
         UserDao userdao = new UserDao();
         userdao.CreateUser(user);
-
     }
 
     @Override

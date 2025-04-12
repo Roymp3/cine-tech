@@ -52,12 +52,13 @@ public class User {
     }
 
 
-    public User(String nm_pessoa, String email, String telefone, String senha, String nm_usuario) {
+    public User(String nm_pessoa, String nm_usuario, String senha, String telefone, String email ){
         this.nm_pessoa = nm_pessoa;
-        this.email = email;
-        this.telefone = telefone;
-        this.senha = senha;
         this.nm_usuario = nm_usuario;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.email = email;
+
     }
 
 }
