@@ -5,6 +5,7 @@ import br.com.cinetech.model.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UserDao {
 
@@ -33,5 +34,29 @@ public class UserDao {
         } catch (Exception e) {
             System.out.println("Error closing connection: " + e.getMessage());
         }
+    }
+
+    public boolean CheckLogin(User user) {
+        String SQL = "SELECT * FROM tb_usuario WHERE ds_email = ? AND ds_senha = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getSenha());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("Usuario encontrado");
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error na validação do login: " + e.getMessage());
+        }
+        return false;
     }
 }
