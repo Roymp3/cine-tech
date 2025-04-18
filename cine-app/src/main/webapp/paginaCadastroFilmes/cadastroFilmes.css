@@ -12,8 +12,8 @@ body{
     height: 100%;
     width: 100%;
     font-family: 'Inria Sans', sans-serif;
-    justify-content: space-between;
     overflow-x: hidden;
+    background-color: #f6f6f6;
 }
 
 header{
@@ -28,6 +28,8 @@ header{
     flex-direction: row;
     align-items: center;
 
+    margin-bottom: 30px;
+
     h1{
         color: white;
         font-size: 30px;
@@ -39,62 +41,79 @@ header{
 
 main{
     display: flex;
+    justify-content: space-around;
+    padding: 30px 30px;
+}
 
+.containerBanner{
+    min-height: 400px;
+    min-width: 400px;
+
+    max-height: 500px;
+    max-width: 500px;
+
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1{
+        margin-bottom: 10px;
+        font-size: 30px;
+        margin-left: 20px;
+        font-family: 'Inria Sans', sans-serif;
+        font-weight: 700;
+    }
 
 }
 
 
-footer{
+#inserirFilme{
+    min-height: 400px;
+    min-width: 300px;
+    max-height: 400px;
+    max-width: 300px;
+    height: 100%;
+    width: 100%;
+    background-color: #D9D9D9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: local;
+
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+
+    #bannerFilme{
+        display: none;
+    }
+
+    label{
+        cursor: pointer;
+    }
+
+}
+
+.input-form{
     display: flex;
     flex-direction: row;
-    min-height: 100px;
-    height: 100%;
-    background-color: #494850;
+    background-color: #ffffff;
+    border-radius: 10px;
+    height: 40px;
+    filter: drop-shadow(0px 0px 10px #000000);
+    padding: 5px 20px;
 
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 70px;
+    input{
 
-    .rede-sociais{
-        display: flex;
-        max-width: 200px;
-        width: 100%;
-        justify-content: space-between;
-
-        img{
-            width: 25px;
-            height: 25px;
-            margin-right: 10px;
-        }
-
-        img:hover{
-            cursor: pointer;
-        }
-    }
-
-    p{
-        color: white;
-        font-size: 15px;
-        font-family: 'Inria Sans', sans-serif;
-        font-weight: 300;
-    }
-
-    .menu{
-        display: flex;
-        max-width: 200px;
-        width: 100%;
-        justify-content: space-between;
-
-        a{
-            color: white;
-            text-decoration: none;
-            font-size: 15px;
-            font-family: 'Inria Sans', sans-serif;
-            font-weight: 300;
-        }
-
-        a:hover{
-            cursor: pointer;
-        }
     }
 }
+
+

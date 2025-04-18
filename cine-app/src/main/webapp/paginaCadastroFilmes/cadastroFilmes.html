@@ -12,29 +12,29 @@
             <h1>CineTech</h1>
         </header>
         <main>
-            <div id="backgroundImage">
-                <input accept="image/*" type="image">
-            </div>
-            <div>
+            <div class="containerBanner">
+                <h1>Banner do filme</h1>
+                <div id="inserirFilme">
 
+                    <label for="bannerFilme">
+                        <img alt="upload" id="uploadIcon" src="../assets/images/pageCadastrarFilmes/carregarImage.png">
+                    </label>
+                    <input type="file" id="bannerFilme" accept="image/*" placeholder="Nome do filme">
+                </div>
+            </div>
+            <div class="form">
+                <h1>
+                    informações do filme
+                </h1>
+
+                <div class="input-form">
+                    <img src="../assets/images/pageCadastrarFilmes/iconNameFilme.png">
+                    <input type="text" id="nomeFilme" placeholder="Nome do filme">
+                </div>
             </div>
         </main>
 
-        <footer>
-            <div class="rede-sociais">
-                <img src="../assets/images/pageCriarConta/twitter.png">
-                <img src="../assets/images/pageCriarConta/youtube.png">
-                <img src="../assets/images/pageCriarConta/facebook.png">
-                <img src="../assets/images/pageCriarConta/instagram.png">
-            </div>
 
-            <p>© CineTech 2024 - 2025. Todos os direitos reservados. </p>
-
-            <div class="menu">
-                <a>About</a>
-                <a>Home</a>
-                <a>Contact</a>
-            </div>
-        </footer>
+    <script src="cadastroFilmes.js"></script>
     </body>
 </html>
