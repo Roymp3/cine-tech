@@ -36,6 +36,77 @@ public class UserDao {
         }
     }
 
+    public boolean VerifyUser(User user){
+
+        String SQL = "SELECT * FROM tb_usuario WHERE nm_usuario = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, user.getNm_usuario());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("Usuario encontrado");
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error ao encontrar usuario: " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean verifyEmail(User user){
+
+        String SQL = "SELECT * FROM tb_usuario WHERE ds_email = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, user.getEmail());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("email encontrado");
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error  ao encontrar email : " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean verifyNumber(User user){
+
+        String SQL = "SELECT * FROM tb_usuario WHERE nr_telefone = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, user.getTelefone());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("telefone encontrado");
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error  ao encontrar telefone : " + e.getMessage());
+        }
+        return false;
+    }
+
     public boolean CheckLogin(User user) {
         String SQL = "SELECT * FROM tb_usuario WHERE ds_email = ? AND ds_senha = ?";
 
