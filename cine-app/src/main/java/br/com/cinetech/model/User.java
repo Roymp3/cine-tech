@@ -2,8 +2,6 @@ package br.com.cinetech.model;
 
 public class User {
 
-
-
     private String nm_pessoa;
     private String nm_usuario;
     private String senha;
@@ -62,6 +60,5 @@ public class User {
     }
 
     public User(){
-
     }
 }
