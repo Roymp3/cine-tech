@@ -31,4 +31,70 @@ removerImagem.addEventListener('click', function() {
     removerImagem.style.display = 'none';
 });
 
+const botaoSalvar = document.querySelector('.botao-salvar');
 
+botaoSalvar.addEventListener('click', function() {
+    const nomeFilme = document.getElementById('nomeFilme').value;
+    const sinopseFilme = document.getElementById('sinopseFilme').value;
+    const generoFilme = document.getElementById('generoFilme').value;
+    const emCartaz = document.getElementById('emCartaz').checked;
+
+    if (!nomeFilme || !generoFilme) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    if (!imageInput.files[0]) {
+        alert('Por favor, selecione uma imagem para o banner do filme.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('nome', nomeFilme);
+    formData.append('sinopse', sinopseFilme);
+    formData.append('genero', generoFilme);
+    formData.append('emCartaz', emCartaz);
+    formData.append('banner', imageInput.files[0]);
+
+    fetch('http://localhost:8080/cadastrarFilme', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Erro ao cadastrar o filme');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Filme cadastrado com sucesso!');
+            limparFormulario();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao cadastrar o filme. Por favor, tente novamente.');
+        });
+});
+
+function limparFormulario() {
+    document.getElementById('nomeFilme').value = '';
+    document.getElementById('sinopseFilme').value = '';
+    document.getElementById('generoFilme').value = '';
+    document.getElementById('duracaoFilme').value = '';
+    document.getElementById('classificacaoFilme').value = '';
+    document.getElementById('dataEstreiaFilme').value = '';
+    document.getElementById('emCartaz').checked = false;
+
+    divImagem.style.backgroundImage = '';
+    uploadIcon.style.opacity = '1';
+    imageInput.value = '';
+    removerImagem.style.display = 'none';
+}
+
+const botaoCancelar = document.querySelector('.botao-cancelar');
+botaoCancelar.addEventListener('click', function() {
+    if(confirm('Tem certeza que deseja cancelar? Todos os dados não salvos serão perdidos.')) {
+        limparFormulario();
+    }
+});

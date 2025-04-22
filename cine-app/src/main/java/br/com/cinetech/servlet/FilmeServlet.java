@@ -37,6 +37,7 @@ public class FilmeServlet extends HttpServlet {
             response.sendRedirect("paginaFilmes.html");
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e);
             response.sendError(500, "Erro ao cadastrar o filme.");
         }
     }
