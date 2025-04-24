@@ -1,0 +1,50 @@
+CREATE DATABASE cine_tech;
+
+USE cine_tech;
+
+-- Tabela de Usuários
+CREATE TABLE tb_usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nm_pessoa VARCHAR(100) NOT NULL,
+    nm_usuario VARCHAR(50) NOT NULL UNIQUE,
+    ds_senha VARCHAR(255) NOT NULL,
+    nr_telefone VARCHAR(20),
+    ds_email VARCHAR(100) UNIQUE
+);
+
+
+-- Tabela de Atores
+CREATE TABLE tb_ator (
+    id_ator INT AUTO_INCREMENT PRIMARY KEY,
+    nm_ator VARCHAR(100) NOT NULL,
+    ds_resumo TEXT
+);
+
+-- Tabela de Filmes
+CREATE TABLE tb_filme (
+    id_filme INT AUTO_INCREMENT PRIMARY KEY,
+    nm_filme VARCHAR(255) NOT NULL,
+    ds_sinopse TEXT,
+    nm_genero VARCHAR(50),
+    img_filme VARCHAR(255)
+);
+
+-- Tabela de Relacionamento: Atores em Filmes
+CREATE TABLE ator_em_filme (
+    id_filme INT,
+    id_ator INT,
+    PRIMARY KEY (id_filme, id_ator),
+    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme),
+    FOREIGN KEY (id_ator) REFERENCES tb_ator(id_ator) 
+);
+
+-- Tabela de Comentários
+CREATE TABLE tb_comentario (
+    id_comentario INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    id_filme INT,
+    ds_nota DECIMAL(2,1),
+    txt_comentario VARCHAR(600) ,
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
+    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme)
+);
