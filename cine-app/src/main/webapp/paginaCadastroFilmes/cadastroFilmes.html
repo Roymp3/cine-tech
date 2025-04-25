@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="cadastroFilmes.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+
+    <meta name="viewport" content="width=   device-width, initial-scale=1">
+    <title>Cadastro filmes | Cinetech</title>
+</head>
+    <body>
+    <header>
+        <div>
+            <img src="../assets/images/pageCriarConta/iconCinetech.svg" alt="CineTech logo">
+            <h1>CineTech</h1>
+        </div>
+
+        <div>
+            <h1>
+                Você está logado como administrador do cinetech
+            </h1>
+        </div>
+
+        <div>
+            <a>
+                <img src="../assets/images/pageCadastrarFilmes/account_circle.png" alt="Sair">
+            </a>
+
+            <a>
+                <img src="../assets/images/pageCadastrarFilmes/menu.png" alt="Sair">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="containerBanner">
+            <h1>Banner do filme</h1>
+            <div id="inserirFilme">
+                <label for="bannerFilme">
+                    <img alt="upload" id="uploadIcon" src="../assets/images/pageCadastrarFilmes/carregarImage.png">
+                </label>
+                <input type="file" id="bannerFilme" accept="image/*">
+            </div>
+            <button id="removerImagem">
+                Remover imagem
+            </button>
+
+            <label>
+                <input type="checkbox" name="emCartaz" id="emCartaz" value="true">
+                Marque se o filme esta em cartaz.
+            </label>
+
+        </div>
+        <div class="form">
+            <h1>
+                Informações do filme
+            </h1>
+
+            <div class="input-form">
+                <img src="../assets/images/pageCadastrarFilmes/icon-name-filme-fixed.svg" alt="Ícone nome">
+                <input type="text" id="nomeFilme" name="nm_filme" placeholder="Nome do filme" required>
+            </div>
+
+            <div class="input-form textarea">
+                <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone sinopse">
+                <textarea id="sinopseFilme" name="ds_sinopse" placeholder="Sinopse do filme"></textarea>
+            </div>
+
+            <div class="input-form">
+                <img src="../assets/images/pageCadastrarFilmes/icon-genero-fixed.svg" alt="Ícone gênero">
+                <select id="generoFilme" name="nm_genero">
+                    <option value="" disabled selected>Selecione o gênero do filme</option>
+                    <option value="Ação">Ação</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="Comédia">Comédia</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Ficção Científica">Ficção Científica</option>
+                    <option value="Terror">Terror</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Animação">Animação</option>
+                    <option value="Documentário">Documentário</option>
+                </select>
+            </div>
+
+            <div class="input-form">
+                <img src="../assets/images/pageCadastrarFilmes/icon-duracao-fixed.svg" alt="Ícone duração">
+                <input type="text" id="duracaoFilme" placeholder="Duração (ex: 120 min)">
+            </div>
+
+            <div class="input-form">
+                <img src="../assets/images/pageCadastrarFilmes/icon-classificacao-idade-corrigido.svg" alt="Ícone classificação">
+                <select id="classificacaoFilme">
+                    <option value="" disabled selected>Classificação indicativa</option>
+                    <option value="L">Livre</option>
+                    <option value="10">10 anos</option>
+                    <option value="12">12 anos</option>
+                    <option value="14">14 anos</option>
+                    <option value="16">16 anos</option>
+                    <option value="18">18 anos</option>
+                </select>
+            </div>
+
+            <div class="input-form">
+                <img src="../assets/images/pageCadastrarFilmes/icon-data-fixed.svg" alt="Ícone data">
+                <input type="date" id="dataEstreiaFilme" placeholder="Data de estreia">
+            </div>
+
+            <div class="botoes">
+                <button class="botao botao-cancelar">Cancelar</button>
+                <button class="botao botao-salvar">Salvar</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="modalSucesso" class="modal">
+        <div class="modal-content modal-sucesso">
+            <div class="modal-icon-container sucesso">
+                <i class="iconoir-check-circle icon-animado"></i>
+            </div>
+            <h1>Filme cadastrado com sucesso!</h1>
+            <p class="modal-mensagem">Seu filme foi adicionado à biblioteca.</p>
+            <button onclick="fecharModalSucesso()" class="botaoModal botao-sucesso">Fechar</button>
+        </div>
+    </div>
+
+    <div id="modalErro" class="modal">
+        <div class="modal-content modal-erro">
+            <div class="modal-icon-container erro">
+                <i class="iconoir-warning-triangle icon-animado erro-icon"></i>
+            </div>
+            <h1>Erro ao cadastrar filme</h1>
+            <p class="modal-mensagem">Ocorreu um erro ao cadastrar o filme. Tente novamente mais tarde.</p>
+            <button onclick="fecharModalErro()" class="botaoModal botao-erro">Fechar</button>
+        </div>
+    </div>
+
+    <script src="cadastroFilmes.js"></script>
+    </body>
+</html>
