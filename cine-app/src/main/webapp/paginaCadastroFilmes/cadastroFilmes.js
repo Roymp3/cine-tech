@@ -60,6 +60,12 @@ botaoSalvar.addEventListener('click', function() {
         method: 'POST',
         body: formData
     })
+        .then(data => {
+            if(data.ok){
+                document.getElementById('modalSucesso').style.display = 'flex';
+                limparFormulario();
+            }
+        })
         .then(response => {
             console.log(response);
             if (!response.ok) {
@@ -67,14 +73,8 @@ botaoSalvar.addEventListener('click', function() {
             }
             return response.json();
         })
-        .then(data => {
-            document.getElementById('modalSucesso').style.display = 'flex';
-            limparFormulario();
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            document.getElementById('modalErro').style.display = 'flex';
-        });
+
+
 });
 
 function limparFormulario() {

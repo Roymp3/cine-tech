@@ -19,6 +19,12 @@ public class FilmeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+
         request.setCharacterEncoding("UTF-8");
         String nome = request.getParameter("nome");
         String genero = request.getParameter("genero");
@@ -32,6 +38,7 @@ public class FilmeServlet extends HttpServlet {
         try {
             FilmeDAO filmeDao = new FilmeDAO();
             filmeDao.CreateFilme(filme);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
