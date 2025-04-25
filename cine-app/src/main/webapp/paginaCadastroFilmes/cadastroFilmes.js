@@ -68,12 +68,12 @@ botaoSalvar.addEventListener('click', function() {
             return response.json();
         })
         .then(data => {
-            alert('Filme cadastrado com sucesso!');
+            document.getElementById('modalSucesso').style.display = 'flex';
             limparFormulario();
         })
         .catch(error => {
             console.error('Erro:', error);
-            alert('Erro ao cadastrar o filme. Por favor, tente novamente.');
+            document.getElementById('modalErro').style.display = 'flex';
         });
 });
 
@@ -98,3 +98,10 @@ botaoCancelar.addEventListener('click', function() {
         limparFormulario();
     }
 });
+
+function fecharModalSucesso() {
+    document.getElementById('modalSucesso').style.display = 'none';
+}
+function fecharModalErro() {
+    document.getElementById('modalErro').style.display = 'none';
+}

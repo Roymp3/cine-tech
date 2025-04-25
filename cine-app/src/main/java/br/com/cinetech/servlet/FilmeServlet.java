@@ -20,7 +20,6 @@ public class FilmeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
         String nome = request.getParameter("nome");
         String genero = request.getParameter("genero");
         String sinopse = request.getParameter("sinopse");
@@ -33,8 +32,6 @@ public class FilmeServlet extends HttpServlet {
         try {
             FilmeDAO filmeDao = new FilmeDAO();
             filmeDao.CreateFilme(filme);
-
-            response.sendRedirect("paginaFilmes.html");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -44,7 +41,7 @@ public class FilmeServlet extends HttpServlet {
 
     private byte[] extractBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];  // Buffer de 1 KB
+        byte[] buffer = new byte[1024];
         int length;
 
         while ((length = inputStream.read(buffer)) != -1) {
