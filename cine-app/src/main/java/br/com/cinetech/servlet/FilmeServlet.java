@@ -46,7 +46,9 @@ public class FilmeServlet extends HttpServlet {
         }
     }
 
-    private byte[] extractBytesFromInputStream(InputStream inputStream) throws IOException {
+
+
+private byte[] extractBytesFromInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int length;
@@ -57,3 +59,4 @@ public class FilmeServlet extends HttpServlet {
         return byteArrayOutputStream.toByteArray();
     }
 }
+
