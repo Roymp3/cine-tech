@@ -1,0 +1,31 @@
+.menu-lateral {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-lateral a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
+}
+
+.menu-lateral button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
