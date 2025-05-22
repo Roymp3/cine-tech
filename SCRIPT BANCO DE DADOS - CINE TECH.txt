@@ -1,9 +1,29 @@
-CREATE DATABASE cine_tech;
+-- ===============================================
+-- BANCO DE DADOS CINE TECH - SCRIPT COMPLETO
+-- Atualizado e unificado com suporte a imagens,
+-- banners e novos campos de biografia, destaque etc.
+-- ===============================================
 
-USE cine_tech;
+-- (Opcional - para MySQL)
+-- CREATE DATABASE IF NOT EXISTS cine_tech;
+-- USE cine_tech;
 
--- Tabela de Usuários
-CREATE TABLE tb_usuario (
+-- ===============================================
+-- DROP TABLES EM ORDEM REVERSA (DEPENDÊNCIAS)
+-- ===============================================
+
+DROP TABLE IF EXISTS ator_em_filme;
+DROP TABLE IF EXISTS tb_comentario;
+DROP TABLE IF EXISTS tb_filme;
+DROP TABLE IF EXISTS tb_ator;
+DROP TABLE IF EXISTS tb_usuario;
+
+-- ===============================================
+-- TABELA: tb_usuario
+-- Armazena dados de login e perfil do usuário
+-- ===============================================
+
+CREATE TABLE IF NOT EXISTS tb_usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nm_pessoa VARCHAR(100) NOT NULL,
     nm_usuario VARCHAR(50) NOT NULL UNIQUE,
@@ -12,39 +32,62 @@ CREATE TABLE tb_usuario (
     ds_email VARCHAR(100) UNIQUE
 );
 
+-- ===============================================
+-- TABELA: tb_ator
+-- Atores com dados completos e foto
+-- ===============================================
 
--- Tabela de Atores
-CREATE TABLE tb_ator (
+CREATE TABLE IF NOT EXISTS tb_ator (
     id_ator INT AUTO_INCREMENT PRIMARY KEY,
     nm_ator VARCHAR(100) NOT NULL,
-    ds_resumo TEXT
+    ds_biografia TEXT,
+    dt_nascimento DATE,
+    nm_nacionalidade VARCHAR(50),
+    ds_premios VARCHAR(255),
+    ds_filmes_famosos VARCHAR(255),
+    img_foto BLOB
 );
 
--- Tabela de Filmes
-CREATE TABLE tb_filme (
+-- ===============================================
+-- TABELA: tb_filme
+-- Contém informações completas dos filmes
+-- Inclui suporte a imagens (BLOB) e destaque
+-- ===============================================
+
+CREATE TABLE IF NOT EXISTS tb_filme (
     id_filme INT AUTO_INCREMENT PRIMARY KEY,
-    nm_filme VARCHAR(255) NOT NULL,
-    ds_sinopse TEXT,
-    nm_genero VARCHAR(50),
-    img_filme VARCHAR(255)
+    NOME VARCHAR(255) NOT NULL,
+    SINOPSE TEXT,
+    GENERO VARCHAR(50),
+    BANNER BLOB,
+    BANNER_FIXO BLOB COMMENT 'Banner com dimensões fixas: 1556x472.35',
+    destaqueDaSemana BOOLEAN DEFAULT FALSE
 );
 
--- Tabela de Relacionamento: Atores em Filmes
-CREATE TABLE ator_em_filme (
+-- ===============================================
+-- TABELA: ator_em_filme
+-- Relacionamento N:N entre atores e filmes
+-- ===============================================
+
+CREATE TABLE IF NOT EXISTS ator_em_filme (
     id_filme INT,
     id_ator INT,
     PRIMARY KEY (id_filme, id_ator),
     FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme),
-    FOREIGN KEY (id_ator) REFERENCES tb_ator(id_ator) 
+    FOREIGN KEY (id_ator) REFERENCES tb_ator(id_ator)
 );
 
--- Tabela de Comentários
-CREATE TABLE tb_comentario (
+-- ===============================================
+-- TABELA: tb_comentario
+-- Comentários e notas feitos por usuários em filmes
+-- ===============================================
+
+CREATE TABLE IF NOT EXISTS tb_comentario (
     id_comentario INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT,
     id_filme INT,
     ds_nota DECIMAL(2,1),
-    txt_comentario VARCHAR(600) ,
+    txt_comentario VARCHAR(600),
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
     FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme)
 );

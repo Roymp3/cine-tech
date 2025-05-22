@@ -69,142 +69,216 @@ header div:nth-child(3) img{
 
 main{
     display: flex;
-    justify-content: space-around;
-    padding: 30px 30px;
-    flex-wrap: wrap;
-}
-
-.containerBanner{
-    min-height: 400px;
-    min-width: 400px;
-    max-height: 550px;
-    max-width: 500px;
-    height: 100%;
-    width: 100%;
-    display: flex;
     flex-direction: column;
+    padding: 30px 70px;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
 }
 
-.containerBanner h1{
-    margin-bottom: 10px;
-    font-size: 30px;
-    margin-left: 20px;
+.cadastro-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-title {
+    font-size: 26px;
     font-family: 'Inria Sans', sans-serif;
     font-weight: 700;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #494850;
+    padding-bottom: 8px;
+    width: fit-content;
 }
 
-.containerBanner input[type="checkbox"] {
+.content-row {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 100%;
+}
+
+.uploads-column {
+    width: 40%;
+    max-width: 420px;
+}
+
+.image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.image-section h2 {
+    font-size: 22px;
+    font-family: 'Inria Sans', sans-serif;
+    font-weight: 700;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #494850;
+    padding-bottom: 5px;
+    min-width: 80px;
+    margin-top: 20px;
+}
+
+.image-section h2:first-child {
+    margin-top: 0;
+}
+
+.form-column {
+    width: 60%;
+    padding-left: 20px;
+}
+
+.form-column h2 {
+    font-size: 22px;
+    font-family: 'Inria Sans', sans-serif;
+    font-weight: 700;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #494850;
+    padding-bottom: 5px;
+    min-width: 180px;
+}
+
+/* Estilo para o checkbox */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.checkbox-container input[type="checkbox"] {
     appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #494850;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    margin-right: 8px;
     position: relative;
-    background-color: white;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
+    cursor: pointer;
+    outline: none;
 }
 
-.containerBanner input[type="checkbox"]:checked {
+.checkbox-container input[type="checkbox"]:checked {
     background-color: #494850;
     border-color: #494850;
 }
 
-.containerBanner input[type="checkbox"]::after {
+.checkbox-container input[type="checkbox"]:checked:after {
     content: '';
     position: absolute;
-    top: 1px;
     left: 5px;
-    width: 5px;
-    height: 10px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
-    opacity: 0;
-    transition: opacity 0.2s ease;
 }
 
-.containerBanner input[type="checkbox"]:checked::after {
-    opacity: 1;
+.checkbox-container label {
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
 }
 
-#inserirFilme{
-    min-height: 400px;
-    min-width: 300px;
-    max-height: 400px;
-    max-width: 300px;
-    height: 100%;
-    width: 100%;
-    background-color: #D9D9D9;
+.input-form:focus-within {
+    border-color: #494850;
+    box-shadow: 0 2px 6px rgba(73, 72, 80, 0.15);
+}
+
+/* Estilo para os containers de upload */
+#inserirFilme, #inserirFilmeFixo {
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+/* Estilo para o cartaz do filme */
+#inserirFilme {
+    width: 220px;
+    height: 320px;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: local;
-    aspect-ratio: 16 / 9;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-
-    margin-bottom: 20px;
 }
 
-#bannerFilme{
-    display: none;
+/* Ajustando proporção para o banner horizontal */
+#inserirFilmeFixo {
+    width: 400px;
+    height: 170px;
+    background-size: cover;
 }
 
-#inserirFilme label{
+#inserirFilme img, #inserirFilmeFixo img{
+    opacity: 1;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    width: 40px;
+    height: 40px;
 }
 
-#inserirFilme label:hover{
-    transform: translateY(-2px);
-    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2));
+#inserirFilme input[type="file"], #inserirFilmeFixo input[type="file"]{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: -1;
 }
 
-#removerImagem{
+#removerImagem, #removerImagemFixo {
     display: none;
-    padding: 7px 15px;
-    border-radius: 10px;
-    border: none;
-    background-color: red;
+    padding: 8px 16px;
+    background-color: #ff4d4d;
     color: white;
-    font-family: 'Inria Sans', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.3s ease;
     margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    transition: all 0.2s ease;
 }
 
-#removerImagem:hover{
-    transform: translateY(-2px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+#removerImagem:hover, #removerImagemFixo:hover {
+    background-color: #ff3333;
+    transform: translateY(-1px);
+}
+
+#removerImagem:hover, #removerImagemFixo:hover {
+    background-color: #ff3333;
 }
 
 .form{
-    min-width: 500px;
-    max-width: 600px;
+    max-width: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
+    margin-top: 50px;
 }
 
 .form h1{
-    font-size: 30px;
+    font-size: 24px;
     font-family: 'Inria Sans', sans-serif;
     font-weight: 700;
-    text-transform: capitalize;
     margin-bottom: 15px;
+    border-bottom: 2px solid #494850;
+    padding-bottom: 5px;
+    max-width: fit-content;
+    align-self: flex-start;
 }
 
 .input-form{
@@ -212,20 +286,25 @@ main{
     flex-direction: row;
     align-items: center;
     background-color: #ffffff;
-    border-radius: 10px;
-    height: 55px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 5px 20px;
+    border-radius: 8px;
+    height: 50px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e6e6e6;
+    padding: 5px 15px;
     margin-bottom: 15px;
     width: 100%;
 }
 
-
+.input-form:focus-within {
+    border-color: #494850;
+    box-shadow: 0 2px 6px rgba(73, 72, 80, 0.15);
+}
 
 .input-form img{
-    margin-right: 15px;
-    width: 24px;
-    height: 24px;
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
 }
 
 .input-form input, .input-form select, .input-form textarea{
@@ -233,52 +312,70 @@ main{
     outline: none;
     width: 100%;
     height: 100%;
-    font-size: 16px;
-    font-family: 'Inria Sans', sans-serif;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+}
+
+.input-form input::placeholder,
+.input-form textarea::placeholder,
+.input-form select:invalid {
+    color: #999;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Target date input placeholder */
+.input-form input[type="date"]::-webkit-datetime-edit-text,
+.input-form input[type="date"]::-webkit-datetime-edit-month-field,
+.input-form input[type="date"]::-webkit-datetime-edit-day-field,
+.input-form input[type="date"]::-webkit-datetime-edit-year-field {
+    color: #999;
 }
 
 .input-form select{
     border: none;
     outline: none;
     appearance: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .input-form select > option{
     padding: 0px 7px;
 }
 
-
-
 .input-form.textarea{
-    height: 150px;
+    height: 120px;
     align-items: flex-start;
-    padding-top: 15px;
+    padding-top: 12px;
 }
 
 .input-form.textarea img{
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 .input-form.textarea textarea{
     resize: none;
-    height: 120px;
-    padding-top: 5px;
+    height: 95px;
+    padding-top: 3px;
+    line-height: 1.4;
 }
 
 .botoes{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 15px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 .botao{
-    padding: 12px 30px;
-    border-radius: 10px;
+    padding: 12px 28px;
+    border-radius: 6px;
     border: none;
-    font-family: 'Inria Sans', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -286,7 +383,7 @@ main{
 .botao-cancelar{
     background-color: #f6f6f6;
     color: #494850;
-    border: 1px solid #494850;
+    border: 1px solid #d0d0d0;
 }
 
 .botao-salvar{
@@ -296,7 +393,98 @@ main{
 
 .botao:hover{
     transform: translateY(-2px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.botao-cancelar:hover {
+    background-color: #eaeaea;
+}
+
+.botao-salvar:hover {
+    background-color: #3d3c45;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1100px) {
+    main {
+        padding: 20px 40px;
+    }
+    
+    .content-row {
+        gap: 30px;
+    }
+    
+    #inserirFilmeFixo {
+        width: 350px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 900px) {
+    .content-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .uploads-column,
+    .form-column {
+        width: 100%;
+        max-width: 500px;
+        padding-left: 0;
+    }
+    
+    .image-section {
+        align-items: center;
+    }
+    
+    .image-section h2 {
+        align-self: flex-start;
+    }
+    
+    #inserirFilme {
+        width: 200px;
+    }
+    
+    #inserirFilmeFixo {
+        width: 100%;
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 15px 20px;
+    }
+    
+    .main-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .image-section h2,
+    .form-column h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .input-form {
+        height: 45px;
+        margin-bottom: 12px;
+    }
+    
+    .input-form.textarea {
+        height: 100px;
+    }
+    
+    .input-form.textarea textarea {
+        height: 75px;
+    }
+    
+    .botao {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
 }
 
  .modal {
@@ -470,17 +658,22 @@ main{
 
 @media (max-width: 1000px) {
     main {
-        flex-direction: column;
-        align-items: center;
+        padding: 20px;
     }
 
     .form {
-        min-width: 300px;
-        max-width: 500px;
+        max-width: 100%;
     }
-
-    .containerBanner {
-        min-width: 300px;
-        max-width: 500px;
+    
+    .new-layout {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+    }
+    
+    .container-left, .container-right {
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
     }
 }
