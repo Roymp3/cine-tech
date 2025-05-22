@@ -6,22 +6,25 @@ public class FilmeModel {
     private String genero;
     private String sinopse;
     private byte[] banner;
+    private byte[] bannerFixo;
 
 
-    public FilmeModel(String nome, String genero, String sinopse, byte[] banner) {
+    public FilmeModel(String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
         this.nome = nome;
         this.genero = genero;
         this.sinopse = sinopse;
         this.banner = banner;
+        this.bannerFixo = bannerFixo;
     }
 
 
-    public FilmeModel(int id, String nome, String genero, String sinopse, byte[] banner) {
+    public FilmeModel(int id, String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
         this.id = id;
         this.nome = nome;
         this.genero = genero;
         this.sinopse = sinopse;
         this.banner = banner;
+        this.bannerFixo = bannerFixo;
     }
 
     // Getters e Setters
@@ -63,5 +66,13 @@ public class FilmeModel {
 
     public void setBanner(byte[] banner) {
         this.banner = banner;
+    }
+    
+    public byte[] getBannerFixo() {
+        return bannerFixo;
+    }
+
+    public void setBannerFixo(byte[] bannerFixo) {
+        this.bannerFixo = bannerFixo;
     }
 }

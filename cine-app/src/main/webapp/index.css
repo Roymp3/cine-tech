@@ -1,7 +1,114 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+.card-destaque-semanal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 340px;
+  height: 400px;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 0;
+  overflow: hidden;
+  background: #000;
+  box-shadow: none;
+}
 
+.card-destaque-semanal img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.destaque-conteudo {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  padding: 40px 60px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.destaque-label {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  font-family: "Inria Sans";
+}
+
+.destaque-titulo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  line-height: 1.1;
+  font-family: "Inria Sans";
+}
+
+.destaque-sinopse {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 0 0 12px 0;
+  opacity: 0.95;
+  line-height: 1.5;
+  max-width: 668px;
+  font-family: "Inria Sans";
+}
+
+@media (max-width: 900px) {
+  .card-destaque-semanal {
+    min-height: 300px;
+    height: 300px;
+  }
+  .destaque-conteudo {
+    padding: 30px;
+  }
+  .destaque-titulo {
+    font-size: 1.8rem;
+  }
+  .destaque-sinopse {
+    font-size: 0.95rem;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-destaque-semanal {
+    min-height: 220px;
+    height: 220px;
+  }
+  .destaque-conteudo {
+    padding: 20px;
+  }
+  .destaque-label {
+    font-size: 0.8rem;
+  }
+  .destaque-titulo {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }  .destaque-sinopse {
+    font-size: 0.9rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
 
 * {
     margin: 0;
@@ -79,30 +186,27 @@ header {
 }
 
 main{
-    padding: 70px;
-    max-height: 1200px;
+    padding: 60px;
     height: 100%;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-
+    justify-content: flex-start;
+    gap: 30px;
 }
 
 .destaqueSemanal{
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-direction: column;
     min-height: 400px;
-    height: 100%;
-    max-width: 1920px;
+    height: 400px;
+    max-width: 100%;
     width: 100%;
     color: white;
-    padding: 40px;
-    background: linear-gradient(90deg, #000 8.5%, rgba(0, 0, 0, 0.00) 100%), url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEibVaKlDmnuk3Qt9r6pwPBe2LWcseR0932j5q8wUqIldj5PLCFodIYmM8RyYoDrX-qxkQuuvUrdrmrm5_JV_bjw_zJ3ViFlmgjs0-SES9yxGiGjsz8xaio3PCaiwC82mdv2dYPENBOQWFg/s1600/homem+de+ferro.png") lightgray 3.001px -5.331px / 100% 102.363% no-repeat;
-
-
+    padding: 0;
+    margin-bottom: 60px;
+    position: relative;
 }
 
 .destaqueSemanal > h2{
@@ -116,7 +220,7 @@ main{
     font-size: 32px;
     font-weight: 600;
     margin: 20px 0;
-    font-family: "Inria Sans";
+    font-family: "Inria Sans";    
 }
 
 .destaqueSemanal p {
@@ -129,6 +233,292 @@ main{
     line-height: 22px;
 }
 
+.carrosselMelhoresAvaliados{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: visible;
+    padding: 20px 0;
+}
 
+.melhoresAvaliadosTitulo{
+    width: 100%;
+    padding: 15px 0;
+    color: #000;
+    text-align: start;
+    margin-bottom: 20px;
+    font-family: "Inria Sans";
+    font-size: 44px;
+}
 
+.carrossel-container {
+    width: calc(1440px);
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+}
 
+.carrossel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: fit-content;
+    gap: 20px;
+}
+
+.cardMelhoresAvaliados{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #EBEBEB;
+    margin: 0px;
+    height: 400px;
+    width: 700px;
+    min-width: 700px;
+    max-width: 700px;
+    flex-shrink: 0;
+    box-shadow: 8px 10px 23px -24px rgba(66, 68, 90, 1);
+}
+
+.cardMelhoresAvaliados img {
+    width: 250px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.cardMelhoresAvaliados > div {
+    padding: 30px;
+    width: 450px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.cardMelhoresAvaliados h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-family: "Inria Sans";
+}
+
+.cardMelhoresAvaliados p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    font-family: "Inria Sans";
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    line-clamp: 10;
+    -webkit-box-orient: vertical;
+    max-height: 240px;
+}
+
+.carrossel-seta {
+    background: transparent;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-size: 24px;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.2s ease;
+}
+
+.carrossel-seta:hover {
+    color: #494850;
+}
+
+.carrossel-seta-esquerda {
+    left: 0;
+}
+
+.carrossel-seta-direita {
+    right: 0;
+}
+
+.melhoresAvaliados{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+/* Estilos para os carrosséis de categorias */
+.categoria-filmes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1920px;
+    margin: 70px auto 0;
+    padding: 0 10px; /* Adicionando um pequeno padding horizontal */
+}
+
+.categoria-titulo {
+    width: 100%;
+    padding: 15px 0;
+    color: #000;
+    text-align: start;
+    margin-bottom: 20px;
+    font-family: "Inria Sans";
+    font-size: 32px;
+}
+
+.carrossel-categoria {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: visible;
+    padding: 20px 0;
+}
+
+.categoria-container {
+    width: calc(1220px); /* Espaço para 5 cards + gaps maiores */
+    margin: 0;
+}
+
+.card-categoria {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    margin: 0px;
+    height: 350px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.card-categoria:hover {
+    transform: scale(1.03);
+}
+
+.card-categoria img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-categoria h3 {
+    padding: 15px 5px 5px;
+    text-align: center;
+    font-family: "Inria Sans";
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+}
+
+/* Media queries para responsividade */
+@media (max-width: 1500px) {
+    .carrossel-container {
+        width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 1200px) {
+    .categoria-container {
+        width: calc(100% - 20px);
+    }
+    
+    .card-categoria {
+        width: 180px;
+        min-width: 180px;
+        max-width: 180px;
+        height: 330px;
+    }
+    
+    .card-categoria img {
+        width: 180px;
+        height: 270px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cardMelhoresAvaliados {
+        width: 95vw;
+        min-width: auto;
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .cardMelhoresAvaliados img {
+        width: 100%;
+        height: 300px;
+    }
+    
+    .cardMelhoresAvaliados > div {
+        width: 100%;
+    }
+    
+    .card-categoria {
+        width: 160px;
+        min-width: 160px;
+        max-width: 160px;
+        height: 290px;
+    }
+    
+    .card-categoria img {
+        width: 160px;
+        height: 240px;
+    }
+    
+    .categoria-titulo {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-categoria {
+        width: 140px;
+        min-width: 140px;
+        max-width: 140px;
+        height: 250px;
+    }
+    
+    .card-categoria img {
+        width: 140px;
+        height: 210px;
+    }
+}
+
+.carrossel-categoria .carrossel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: fit-content;
+    gap: 30px; /* Espaçamento entre os cards */
+}
+
+.carrossel-categoria .carrossel-seta-esquerda {
+    left: -10px;
+}
+
+.carrossel-categoria .carrossel-seta-direita {
+    right: -10px;
+}

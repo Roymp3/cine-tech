@@ -29,85 +29,104 @@
             <a>
                 <img src="../assets/images/pageCadastrarFilmes/menu.png" alt="Sair">
             </a>
-        </div>
-    </header>
+        </div>    </header>    <main>
+        <div class="cadastro-container">
+            <h1 class="main-title">Cadastro de Filme</h1>
+            
+            <div class="content-row">
+                <div class="uploads-column">
+                    <div class="image-section">
+                        <h2>Cartaz</h2>
+                        <div id="inserirFilme">
+                            <label for="bannerFilme">
+                                <img alt="upload" id="uploadIcon" src="../assets/images/pageCadastrarFilmes/carregarImage.png">
+                            </label>
+                            <input type="file" id="bannerFilme" accept="image/*">
+                        </div>
+                        <button id="removerImagem">
+                            Remover imagem
+                        </button>
 
-    <main>
-        <div class="containerBanner">
-            <h1>Banner do filme</h1>
-            <div id="inserirFilme">
-                <label for="bannerFilme">
-                    <img alt="upload" id="uploadIcon" src="../assets/images/pageCadastrarFilmes/carregarImage.png">
-                </label>
-                <input type="file" id="bannerFilme" accept="image/*">
-            </div>
-            <button id="removerImagem">
-                Remover imagem
-            </button>
+                        <h2>Banner</h2>
+                        <div id="inserirFilmeFixo">
+                            <label for="bannerFilmeFixo">
+                                <img alt="upload" id="uploadIconFixo" src="../assets/images/pageCadastrarFilmes/carregarImage.png">
+                            </label>
+                            <input type="file" id="bannerFilmeFixo" accept="image/*">
+                        </div>
+                        <button id="removerImagemFixo">
+                            Remover imagem
+                        </button>
 
-            <label>
-                <input type="checkbox" name="emCartaz" id="emCartaz" value="true">
-                Marque se o filme esta em cartaz.
-            </label>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="emCartaz" name="emCartaz" value="true">
+                            <label for="emCartaz">Marque se o filme está em cartaz</label>
+                        </div>
 
-        </div>
-        <div class="form">
-            <h1>
-                Informações do filme
-            </h1>
+                    </div>
+                </div>
+                
+                <!-- Right side - Form inputs -->
+                <div class="form-column">
+                    <h2>Informações do Filme</h2>
+                    
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-name-filme-fixed.svg" alt="Ícone nome">
+                        <input type="text" id="nomeFilme" name="nm_filme" placeholder="Nome do filme" required>
+                    </div>
 
-            <div class="input-form">
-                <img src="../assets/images/pageCadastrarFilmes/icon-name-filme-fixed.svg" alt="Ícone nome">
-                <input type="text" id="nomeFilme" name="nm_filme" placeholder="Nome do filme" required>
-            </div>
+                    <div class="input-form textarea">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone sinopse">
+                        <textarea id="sinopseFilme" name="ds_sinopse" placeholder="Sinopse do filme"></textarea>
+                    </div>
 
-            <div class="input-form textarea">
-                <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone sinopse">
-                <textarea id="sinopseFilme" name="ds_sinopse" placeholder="Sinopse do filme"></textarea>
-            </div>
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-genero-fixed.svg" alt="Ícone gênero">
+                        <select id="generoFilme" name="nm_genero">
+                            <option value="" disabled selected>Selecione o gênero do filme</option>
+                            <option value="Ação">Ação</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Comédia">Comédia</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Ficção Científica">Ficção Científica</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Animação">Animação</option>
+                            <option value="Documentário">Documentário</option>
+                        </select>
+                    </div>
 
-            <div class="input-form">
-                <img src="../assets/images/pageCadastrarFilmes/icon-genero-fixed.svg" alt="Ícone gênero">
-                <select id="generoFilme" name="nm_genero">
-                    <option value="" disabled selected>Selecione o gênero do filme</option>
-                    <option value="Ação">Ação</option>
-                    <option value="Aventura">Aventura</option>
-                    <option value="Comédia">Comédia</option>
-                    <option value="Drama">Drama</option>
-                    <option value="Ficção Científica">Ficção Científica</option>
-                    <option value="Terror">Terror</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Animação">Animação</option>
-                    <option value="Documentário">Documentário</option>
-                </select>
-            </div>
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-duracao-fixed.svg" alt="Ícone duração">
+                        <input type="text" id="duracaoFilme" placeholder="Duração (ex: 120 min)">
+                    </div>
 
-            <div class="input-form">
-                <img src="../assets/images/pageCadastrarFilmes/icon-duracao-fixed.svg" alt="Ícone duração">
-                <input type="text" id="duracaoFilme" placeholder="Duração (ex: 120 min)">
-            </div>
-
-            <div class="input-form">
-                <img src="../assets/images/pageCadastrarFilmes/icon-classificacao-idade-corrigido.svg" alt="Ícone classificação">
-                <select id="classificacaoFilme">
-                    <option value="" disabled selected>Classificação indicativa</option>
-                    <option value="L">Livre</option>
-                    <option value="10">10 anos</option>
-                    <option value="12">12 anos</option>
-                    <option value="14">14 anos</option>
-                    <option value="16">16 anos</option>
-                    <option value="18">18 anos</option>
-                </select>
-            </div>
-
-            <div class="input-form">
-                <img src="../assets/images/pageCadastrarFilmes/icon-data-fixed.svg" alt="Ícone data">
-                <input type="date" id="dataEstreiaFilme" placeholder="Data de estreia">
-            </div>
-
-            <div class="botoes">
-                <button class="botao botao-cancelar">Cancelar</button>
-                <button class="botao botao-salvar">Salvar</button>
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-classificacao-idade-corrigido.svg" alt="Ícone classificação">
+                        <select id="classificacaoFilme">
+                            <option value="" disabled selected>Classificação indicativa</option>
+                            <option value="L">Livre</option>
+                            <option value="10">10 anos</option>
+                            <option value="12">12 anos</option>
+                            <option value="14">14 anos</option>
+                            <option value="16">16 anos</option>
+                            <option value="18">18 anos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-data-fixed.svg" alt="Ícone data">
+                        <input type="date" id="dataEstreiaFilme" placeholder="Data de estreia">
+                    </div>
+                    
+                    <div class="input-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone trailer">
+                        <input type="url" id="trailerUrlFilme" placeholder="URL do trailer (YouTube)">
+                    </div>                    <div class="botoes">
+                        <button class="botao botao-cancelar">Cancelar</button>
+                        <button class="botao botao-salvar">Salvar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

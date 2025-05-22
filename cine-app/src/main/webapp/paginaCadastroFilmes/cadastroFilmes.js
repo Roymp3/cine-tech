@@ -3,6 +3,11 @@ const divImagem = document.getElementById('inserirFilme');
 const uploadIcon = document.getElementById('uploadIcon');
 const removerImagem = document.getElementById('removerImagem');
 
+const imageInputFixo = document.getElementById('bannerFilmeFixo');
+const divImagemFixo = document.getElementById('inserirFilmeFixo');
+const uploadIconFixo = document.getElementById('uploadIconFixo');
+const removerImagemFixo = document.getElementById('removerImagemFixo');
+
 
 imageInput.addEventListener('change', function(event) {
     const file = event.target.files[0];
@@ -21,14 +26,44 @@ imageInput.addEventListener('change', function(event) {
     }
 
     reader.readAsDataURL(file);
-
-
 });
+
 removerImagem.addEventListener('click', function() {
     divImagem.style.backgroundImage = '';
     uploadIcon.style.opacity = '1';
     imageInput.value = '';
     removerImagem.style.display = 'none';
+});
+
+imageInputFixo.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    console.log(file);
+    if(!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const img = new Image();
+        img.onload = function() {
+            divImagemFixo.style.backgroundImage = `url(${e.target.result})`;
+            uploadIconFixo.style.opacity = '0';
+            removerImagemFixo.style.display = 'block';
+        };
+        img.src = e.target.result;
+    }
+
+    reader.readAsDataURL(file);
+});
+
+removerImagemFixo.addEventListener('click', function() {
+    divImagemFixo.style.backgroundImage = '';
+    uploadIconFixo.style.opacity = '1';
+    imageInputFixo.value = '';
+    removerImagemFixo.style.display = 'none';
 });
 
 const botaoSalvar = document.querySelector('.botao-salvar');
@@ -42,10 +77,18 @@ botaoSalvar.addEventListener('click', function() {
     if (!nomeFilme || !generoFilme) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
+    }    if (!imageInput.files[0]) {
+        alert('Por favor, selecione uma imagem para o cartaz do filme.');
+        return;
     }
-
-    if (!imageInput.files[0]) {
+    
+    if (!imageInputFixo.files[0]) {
         alert('Por favor, selecione uma imagem para o banner do filme.');
+        return;
+    }
+    
+    const confirmarEnvio = confirm('Você está prestes a cadastrar um novo filme. Deseja continuar?');
+    if (!confirmarEnvio) {
         return;
     }
 
@@ -55,6 +98,7 @@ botaoSalvar.addEventListener('click', function() {
     formData.append('genero', generoFilme);
     formData.append('emCartaz', emCartaz);
     formData.append('banner', imageInput.files[0]);
+    formData.append('bannerFixo', imageInputFixo.files[0]);
 
     fetch('http://localhost:8080/cadastrarFilme', {
         method: 'POST',
@@ -90,6 +134,11 @@ function limparFormulario() {
     uploadIcon.style.opacity = '1';
     imageInput.value = '';
     removerImagem.style.display = 'none';
+    
+    divImagemFixo.style.backgroundImage = '';
+    uploadIconFixo.style.opacity = '1';
+    imageInputFixo.value = '';
+    removerImagemFixo.style.display = 'none';
 }
 
 const botaoCancelar = document.querySelector('.botao-cancelar');

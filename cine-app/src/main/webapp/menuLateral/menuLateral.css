@@ -1,31 +1,129 @@
+#menuLateral {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#menuLateral.active {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
 .menu-lateral {
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
     width: 250px;
     height: 100vh;
-    background-color: #333;
+    background-color: #494850;
     color: white;
     padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-in-out;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        right: -250px;
+    }
+    to {
+        right: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(250px);
+    }
+}
+
+.menu-lateral.closing {
+    animation: slideOut 0.3s ease-in-out forwards;
 }
 
 .menu-lateral ul {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
+}
+
+.menu-lateral li {
+    margin: 15px 0;
 }
 
 .menu-lateral a {
     color: white;
     text-decoration: none;
-    display: block;
-    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.menu-lateral a:hover {
+    background-color: #5d5c66;
+}
+
+.menu-lateral i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
 }
 
 .menu-lateral button {
-    background: red;
+    background: transparent;
     color: white;
-    border: none;
+    border: 1px solid #ff4757;
+    border-radius: 4px;
     padding: 5px 10px;
     margin-bottom: 20px;
     cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: background-color 0.2s;
+}
+
+.menu-lateral button:hover {
+    background-color: #ff4757;
+}
+
+.menu-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+.menu-user img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.menu-user h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.menu-overlay {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.menu-overlay.closing {
+    opacity: 0;
 }
