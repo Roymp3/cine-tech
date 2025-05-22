@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="usuario.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+    <img src="imgusuario/iconCinetech.svg" alt="CineTech logo">
+    <h1>CineTech</h1>
+    <div class="icons">
+    <img src="imgusuario/account_circle.svg" alt="icon">
+    <img src="imgusuario/menu.svg" alt="menu">
+    </div>
+    </header>
+
+
+
+<!-- informaçoes de usuario -->
+
+<section class="usuario">
+    <div class="perfil-image">
+        <img src="imgusuario/Vector.svg" alt="perfil de usuario">
+    </div>
+    <div class="nome">Gustavo Ramos</div>
+            <div class="status-perfil">
+                <div class="indices">
+                    <div class="numero">29</div>
+                    <div class="label">Filmes Vistos</div>
+                </div>
+                <div class="indices">
+                    <div class="numero">76</div>
+                    <div class="label">Favoritos</div>
+                </div>
+                <div class="indices">
+                    <div class="numero">45</div>
+                    <div class="label">Comentários</div>
+                </div>
+            </div>
+</section>
+
+
+<!-- lista de favoritos -->
+
+
+<section class="lista">
+    <div class="campo">
+        <div class="lista-header">
+            <img class="img1" src="imgusuario/lista.svg" alt="lista">
+            <h2>Lista de desejos</h2>
+        </div>
+        
+        <div class="lista-items">
+            <div class="lista-item">
+                <img class="img" src="imgusuario/minecraft.jpg" alt="minecraft">
+                <div class="lista-item-info">
+                    <div class="lista-item-titulo">Minecraft</div>
+                    <div class="lista-item-ano">2025</div>
+                </div>
+            </div>
+            
+            <div class="lista-item">
+                <img class="img" src="imgusuario/flow.jpg" alt="Flow">
+                <div class="lista-item-info">
+                    <div class="lista-item-titulo">Flow</div>
+                    <div class="lista-item-ano">2025</div>
+                    
+                </div>
+            </div>
+        </div>
+</section>
+
+
+<!-- lista de generos -->
+
+<section class="generos">
+    <div class="genres-header">
+        <span class="icon">🎬</span>
+        <h2>Gêneros Favoritos</h2>
+    </div>
+    
+    <div class="genero-tags">
+        <div class="genero-tag">Terror</div>
+        <div class="genero-tag">Comédia</div>
+        <div class="genero-tag">Drama</div>
+        <div class="genero-tag">Ação</div>
+        <div class="genero-tag">Ficção Científica</div>
+    </div>
+</section>
+
+
+<!-- favoritos, curtidos, comentarios -->
+
+<section class="conteudo-central">
+    <div class="tabs">
+        <div class="tab-coluna">
+            <div class="tab-active">Favoritos</div>
+            <div class="card-container">
+                <div class="card">
+                    <img src="imgusuario/flow.jpg" alt="Flow">
+                    <div class="info">
+                        <div class="titulo">Flow</div>
+                        <div class="detalhes">
+                            <img src="imgusuario/estrela.svg" alt="Estrela" class="estrela-img">
+                            9.0 | 2025
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-coluna">
+            <div class="tab">Curtidos</div>
+            <div class="card-container">
+                <div class="card card-vazio" style="display: none;"></div>
+            </div>
+        </div>
+        <div class="tab-coluna">
+            <div class="tab">Comentários</div>
+            <div class="card-container">
+                <div class="card card-vazio" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="rede-sociais">
+        <img src="imgusuario/twitter.svg">
+        <img src="imgusuario/youtube.svg">
+        <img src="imgusuario/facebook.svg">
+        <img src="imgusuario/instagram%201.svg">
+    </div>
+
+    <p>© CineTech 2024 - 2025. Todos os direitos reservados. </p>
+
+    <div class="menu">
+        <a>About</a>
+        <a>Home</a>
+        <a>Contact</a>
+    </div>
+</footer>
+
+<script src="usuario.js"></script>
+
+</body>
+</html>
