@@ -38,7 +38,7 @@ public class AtorModel {
         this.dsFilmesFamosos = dsFilmesFamosos;
     }
 
-    // Getters e Setters
+
     public int getIdAtor() {
         return idAtor;
     }

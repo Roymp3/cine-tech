@@ -15,16 +15,10 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Servlet responsável por tratar as requisições relacionadas aos atores.
- */
 @WebServlet(urlPatterns = {"/cadastrarAtor", "/listarAtores", "/buscarAtor", "/obterFotoAtor"})
-@MultipartConfig(maxFileSize = 1024 * 1024 * 5) // 5MB
-public class AtorServlet extends HttpServlet {
-
-    @Override
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5)
+public class AtorServlet extends HttpServlet {    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Configuração de cabeçalhos CORS
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -41,16 +35,12 @@ public class AtorServlet extends HttpServlet {
                 break;
         }
     }
-    
-    @Override
+      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Configuração de cabeçalhos CORS
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        
-        // Verificar se é uma requisição de imagem
-        String idParam = request.getParameter("id");
+          String idParam = request.getParameter("id");
         
         if (idParam != null && request.getServletPath().equals("/obterFotoAtor")) {
             try {
@@ -62,9 +52,7 @@ public class AtorServlet extends HttpServlet {
                 return;
             }
         }
-        
-        // Processar outros tipos de requisições GET
-        String action = request.getServletPath();
+          String action = request.getServletPath();
         
         switch (action) {
             case "/listarAtores":
@@ -87,10 +75,7 @@ public class AtorServlet extends HttpServlet {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setStatus(HttpServletResponse.SC_OK);
     }
-    
-    /**
-     * Processa a requisição para cadastrar um novo ator.
-     */
+  
     private void cadastrarAtor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -98,26 +83,21 @@ public class AtorServlet extends HttpServlet {
         System.out.println("Iniciando processamento de cadastro de ator");
         
         try {
-            // Processar parâmetros de texto do formulário
+
             String nome = request.getParameter("nome");
             String biografia = request.getParameter("biografia");
             String nacionalidade = request.getParameter("nacionalidade");
             String premios = request.getParameter("premios");
             String filmesFamosos = request.getParameter("filmesFamosos");
-            
-            // Validar parâmetro obrigatório
-            if (nome == null || nome.trim().isEmpty()) {
+              if (nome == null || nome.trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"status\":\"error\",\"message\":\"Nome do ator é obrigatório\"}");
                 return;
             }
-            
-            // Debug de recebimento
-            System.out.println("Nome recebido: " + nome);
+              System.out.println("Nome recebido: " + nome);
             System.out.println("Biografia recebida: " + biografia);
             System.out.println("Nacionalidade recebida: " + nacionalidade);
             
-            // Converter a data de nascimento
             Date dataNascimento = null;
             String dataNascimentoStr = request.getParameter("dataNascimento");
             if (dataNascimentoStr != null && !dataNascimentoStr.isEmpty()) {
@@ -129,9 +109,7 @@ public class AtorServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            
-            // Processar a imagem
-            Part fotoPart = null;
+              Part fotoPart = null;
         try {
             fotoPart = request.getPart("foto");
             System.out.println("Foto recebida: " + (fotoPart != null ? fotoPart.getSize() + " bytes" : "null"));
@@ -150,9 +128,7 @@ public class AtorServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        
-        // Criar o objeto AtorModel
-        AtorModel ator = new AtorModel();
+          AtorModel ator = new AtorModel();
         ator.setNmAtor(nome);
         ator.setDsBiografia(biografia);
         ator.setDtNascimento(dataNascimento);
@@ -213,10 +189,7 @@ public class AtorServlet extends HttpServlet {
         out.flush();
     }
     }
-    
-    /**
-     * Lista todos os atores cadastrados.
-     */
+  
     private void listarAtores(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -264,10 +237,7 @@ public class AtorServlet extends HttpServlet {
             response.getWriter().write("{\"status\":\"error\",\"message\":\"" + escaparJSON(e.getMessage()) + "\"}");
         }
     }
-    
-    /**
-     * Busca um ator específico por ID ou nome.
-     */
+  
     private void buscarAtor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -341,10 +311,7 @@ public class AtorServlet extends HttpServlet {
             response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
-    
-    /**
-     * Serve a imagem do ator.
-     */
+  
     private void servirFotoAtor(HttpServletResponse response, int id) throws ServletException, IOException {
         System.out.println("Servindo foto do ator com ID: " + id);
         
@@ -358,7 +325,7 @@ public class AtorServlet extends HttpServlet {
                 return;
             }
             
-            // Verificar a disponibilidade da imagem
+
             byte[] fotoBytes = ator.getFotoBytes();
             if (fotoBytes == null && ator.getImgFoto() != null) {
                 System.out.println("Convertendo InputStream para bytes");
@@ -384,7 +351,7 @@ public class AtorServlet extends HttpServlet {
         }
     }
     
-    // Método para extrair bytes de um InputStream
+
     private byte[] extractBytesFromInputStream(InputStream inputStream) throws IOException {
         if (inputStream == null) {
             System.out.println("InputStream é nulo, retornando array vazio");
@@ -392,7 +359,7 @@ public class AtorServlet extends HttpServlet {
         }
         
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[8192]; // Buffer maior para melhor desempenho
+            byte[] buffer = new byte[8192];
             int read;
             
             System.out.println("Lendo dados do InputStream");
@@ -410,17 +377,12 @@ public class AtorServlet extends HttpServlet {
             throw e;
         }
     }
-    
-    /**
-     * Escapa caracteres especiais em strings para formato JSON.
-     * Implementa escape de caracteres conforme especificação JSON.
-     */
+  
     private String escaparJSON(String input) {
         if (input == null) {
             return "";
         }
-        
-        return input.replace("\\", "\\\\") // Deve vir primeiro para não duplicar barras
+          return input.replace("\\", "\\\\")
                    .replace("\"", "\\\"")
                    .replace("\n", "\\n")
                    .replace("\r", "\\r")

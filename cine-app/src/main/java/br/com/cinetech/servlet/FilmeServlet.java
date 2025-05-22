@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.io.PrintWriter;
 
 @WebServlet("/cadastrarFilme")
-@MultipartConfig(maxFileSize = 1024 * 1024 * 5) // 5MB
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5)
 public class FilmeServlet extends HttpServlet {
 
     @Override

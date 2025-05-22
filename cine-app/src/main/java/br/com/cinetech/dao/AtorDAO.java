@@ -9,20 +9,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe responsável pela persistência de dados de Atores no banco de dados.
- */
+
 public class AtorDAO {
     
     public AtorDAO() {
     }
-
-    /**
-     * Insere um novo ator no banco de dados.
-     *
-     * @param ator O ator a ser inserido.
-     * @return true se o cadastro foi bem sucedido, false caso contrário.
-     */
     public boolean inserir(AtorModel ator) {
         String SQL = "INSERT INTO tb_ator (nm_ator, ds_biografia, dt_nascimento, nm_nacionalidade, ds_premios, ds_filmes_famosos, img_foto) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -34,9 +25,7 @@ public class AtorDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
             
             System.out.println("Conexão com o banco estabelecida com sucesso");
-            
-            // Preparando declaração
-            System.out.println("Preenchendo campos da query");
+              System.out.println("Preenchendo campos da query");
             preparedStatement.setString(1, ator.getNmAtor());
             preparedStatement.setString(2, ator.getDsBiografia());
             
@@ -80,13 +69,6 @@ public class AtorDAO {
             return false;
         }
     }
-
-    /**
-     * Busca um ator pelo ID.
-     * 
-     * @param id O ID do ator a ser buscado.
-     * @return O ator encontrado ou null se não encontrado.
-     */
     public AtorModel buscarPorId(int id) {
         String SQL = "SELECT * FROM tb_ator WHERE id_ator = ?";
         
@@ -120,13 +102,7 @@ public class AtorDAO {
             return null;
         }
     }
-    
-    /**
-     * Busca atores pelo nome.
-     * 
-     * @param nome O nome ou parte do nome do ator a ser buscado.
-     * @return Lista de atores encontrados.
-     */
+  
     public List<AtorModel> buscarPorNome(String nome) {
         String SQL = "SELECT * FROM tb_ator WHERE nm_ator LIKE ?";
         List<AtorModel> atores = new ArrayList<>();
@@ -161,11 +137,7 @@ public class AtorDAO {
             return atores;
         }
     }
-    
-    /**
-     * Lista todos os atores.
-     * 
-     * @return Lista de todos os atores.
+  
      */
     public List<AtorModel> listarTodos() {
         String SQL = "SELECT * FROM tb_ator";
@@ -198,18 +170,9 @@ public class AtorDAO {
             return atores;
         }
     }
-    
-    /**
-     * Fecha a conexão com o banco de dados.
-     */
-    public void fecharConexao() {
-        // Como estamos usando conexões locais que são fechadas em cada método,
-        // não é necessário implementação específica aqui
+      public void fecharConexao() {
     }
-    
-    /**
-     * Método auxiliar para extrair um objeto AtorModel de um ResultSet.
-     */
+  
     private AtorModel extrairAtorDoResultSet(ResultSet resultSet) throws SQLException {
         AtorModel ator = new AtorModel();
         
@@ -221,7 +184,7 @@ public class AtorDAO {
         ator.setDsPremios(resultSet.getString("ds_premios"));
         ator.setDsFilmesFamosos(resultSet.getString("ds_filmes_famosos"));
         
-        // Carrega a imagem do ator
+
         Blob blob = resultSet.getBlob("img_foto");
         if (blob != null) {
             try {
