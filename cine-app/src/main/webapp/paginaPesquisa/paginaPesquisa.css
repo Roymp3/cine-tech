@@ -15,6 +15,7 @@ body {
     justify-content: flex-start;
     overflow-x: hidden;
     background-color: #f6f6f6;
+    padding-bottom: 80px; /* Adicionando padding-bottom para evitar que o conteúdo fique sob o footer */
 }
 
 header {
@@ -105,15 +106,15 @@ header h1 {
 /* Estilos do conteúdo principal (main) */
 .main-content {
     max-width: 960px;
-    height: 100vh; /* Altura total da tela */
+    min-height: calc(100vh - 150px); /* Altura ajustada para considerar header e footer */
     margin: 0 auto;
     padding: 30px 20px;
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
-    flex-direction: column;  /* Caso você queira o conteúdo empilhado */
+    justify-content: flex-start; /* Alterado para iniciar o conteúdo no topo */
+    align-items: center;
+    flex-direction: column;
     box-sizing: border-box;
-
+    flex: 1; /* Para permitir que o conteúdo cresça */
 }
 
 .search-results-container {
@@ -270,4 +271,18 @@ footer p {
     vertical-align: middle;
     margin-right: 3px;
     margin-bottom: 4px;
+}
+
+/* Estilo para mensagem de nenhum resultado */
+.no-results-message {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+    font-size: 18px;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
 }

@@ -13,7 +13,7 @@ function carregarFilme() {
     const filmeId = getQueryParam('id');
     if (!filmeId) {
         console.error('ID do filme não especificado na URL');
-        exibirMensagemErro('Filme não encontrado');
+        exibirMensagemErro('Filme não encontrado. ID não especificado na URL.');
         return;
     }
 
@@ -21,6 +21,7 @@ function carregarFilme() {
     document.querySelector('.filme-info .descricao .sinopse').textContent = 'Carregando informações do filme...';
     document.querySelector('.filme-info .descricao h1').textContent = 'Carregando...';
     
+    // URL atualizada para buscar filme por ID
     fetch('/cadastrarFilme?id=' + filmeId)
         .then(response => {
             if (!response.ok) {
@@ -38,7 +39,7 @@ function carregarFilme() {
             
             if (!filme) {
                 console.error('Filme não encontrado nos dados retornados');
-                exibirMensagemErro('Filme não encontrado');
+                exibirMensagemErro('Filme não encontrado nos dados retornados');
                 return;
             }
             
@@ -48,49 +49,57 @@ function carregarFilme() {
         .catch(err => {
             console.error('Erro ao buscar filme:', err);
             exibirMensagemErro('Erro ao carregar o filme: ' + err.message);
+            
+            // Alternativa caso a primeira tentativa falhe - tentar outra rota
+            console.log('Tentando rota alternativa...');
+            fetch('/filme?id=' + filmeId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro HTTP ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(filme => {
+                    if (!filme) {
+                        throw new Error('Filme não encontrado');
+                    }
+                    console.log('Dados do filme recebidos pela rota alternativa:', filme);
+                    preencherInfoFilme(filme);
+                })
+                .catch(secondErr => {
+                    console.error('Erro na segunda tentativa:', secondErr);
+                    // Mantém a mensagem de erro original
+                });
         });
 }
 
 function preencherInfoFilme(filme) {
-    const poster = document.querySelector('.filme-info .poster');
-    if (poster && filme.bannerUrl) {
-        let url = filme.bannerUrl;
-        if (!/^https?:\/\//.test(url) && !url.startsWith('/')) {
-            url = '/' + url;
-        }
-        poster.src = url;
-        poster.alt = 'Pôster de ' + (filme.nome || 'filme');
+    // Preencher o título
+    document.querySelector('.filme-info .descricao h1').textContent = filme.nome;
+    
+    // Preencher a sinopse
+    document.querySelector('.filme-info .descricao .sinopse').textContent = filme.sinopse;
+    
+    // Preencher o gênero
+    const generoElement = document.querySelector('.genero-elenco p:first-child');
+    if (generoElement) {
+        generoElement.innerHTML = `<strong>Gênero</strong><br>${filme.genero || 'Não especificado'}`;
     }
     
-    const titulo = document.querySelector('.filme-info .descricao h1');
-    if (titulo) {
-        titulo.textContent = filme.nome || '';
-    }
-    
-    const sinopse = document.querySelector('.filme-info .descricao .sinopse');
-    if (sinopse) {
-        sinopse.textContent = filme.sinopse || 'Nenhuma sinopse disponível.';
-    }
-    
-    const genero = document.querySelector('.filme-info .descricao .genero-elenco p');
-    if (genero) {
-        genero.innerHTML = '<strong>Gênero</strong><br>' + (filme.genero || 'Não classificado');
-    }
-    
+    // Iniciar carregamento dos atores
     buscarAtoresDoFilme(filme.id);
-    if (filme.destaqueSemana) {
-        let label = document.createElement('span');
-        label.textContent = 'DESTAQUE DA SEMANA';
-        label.style.background = '#FFD700';
-        label.style.color = '#222';
-        label.style.fontWeight = 'bold';
-        label.style.padding = '4px 10px';
-        label.style.borderRadius = '8px';
-        label.style.marginLeft = '10px';
-        if (titulo) titulo.appendChild(label);
+    
+    // Atualizar a imagem do poster se disponível
+    if (filme.bannerEncoded) {
+        const imgElement = document.querySelector('.filme-info .poster');
+        if (imgElement) {
+            imgElement.src = `data:image/jpeg;base64,${filme.bannerEncoded}`;
+            imgElement.alt = `Poster de ${filme.nome}`;
+        }
     }
     
-    document.querySelector('.comentarios-container').style.display = 'block';
+    // Atualizar o título da página
+    document.title = `${filme.nome} - CineTech`;
 }
 
 function buscarAtoresDoFilme(filmeId) {
@@ -98,9 +107,15 @@ function buscarAtoresDoFilme(filmeId) {
         console.error('ID do filme não especificado');
         return;
     }
+    
+    console.log('Buscando atores para o filme ID:', filmeId);
 
-    const elencoElement = document.querySelector('.filme-info .descricao .genero-elenco p:nth-child(3)');
-    if (!elencoElement) return;
+    // Selecionar o elemento correto para o elenco (o segundo <p> após o <hr>)
+    const elencoElement = document.querySelector('.genero-elenco p:last-child');
+    if (!elencoElement) {
+        console.error('Elemento de elenco não encontrado');
+        return;
+    }
 
     elencoElement.innerHTML = '<strong>Elenco</strong><br>';
     fetch('/atoresPorFilme?idFilme=' + filmeId)
@@ -109,27 +124,54 @@ function buscarAtoresDoFilme(filmeId) {
                 throw new Error('Erro HTTP ' + response.status);
             }
             return response.json();
-        })
-        .then(atores => {
+        })        .then(atores => {
             console.log("Atores recebidos:", atores);
             if (!atores || !Array.isArray(atores) || atores.length === 0) {
                 elencoElement.innerHTML = '<strong>Elenco</strong><br>Não disponível';
+                console.log('Nenhum ator encontrado para o filme');
                 return;
             }
 
             let elencoHTML = '<strong>Elenco</strong><br>';
             
             if (atores.length > 0) {
-                const nomesAtores = atores.map(ator => ator.nome).join(', ');
+                // Verificar propriedades disponíveis
+                console.log('Primeiro ator:', atores[0]);
+                // Usar o campo 'nome' ou 'nmAtor' dependendo de qual estiver disponível
+                const nomesAtores = atores.map(ator => {
+                    if (ator.nome) {
+                        return ator.nome;
+                    } else if (ator.nmAtor) {
+                        return ator.nmAtor; 
+                    } else {
+                        console.warn('Ator sem nome:', ator);
+                        return 'Ator Desconhecido';
+                    }
+                }).join(', ');
                 elencoHTML += nomesAtores;
             }
             
             elencoElement.innerHTML = elencoHTML;
-            console.log('Atores carregados:', atores);
+            console.log('Atores carregados com sucesso!');
         })
         .catch(err => {
             console.error('Erro ao buscar atores:', err);
             elencoElement.innerHTML = '<strong>Elenco</strong><br>Não disponível';
+            
+            // Tentar uma rota alternativa
+            console.log('Tentando rota alternativa para buscar atores...');
+            fetch('/buscarAtores?idFilme=' + filmeId)
+                .then(response => response.ok ? response.json() : Promise.reject('Erro na resposta'))
+                .then(atores => {
+                    if (atores && atores.length > 0) {
+                        let elencoHTML = '<strong>Elenco</strong><br>';
+                        const nomesAtores = atores.map(ator => ator.nome || ator.nmAtor || 'Desconhecido').join(', ');
+                        elencoHTML += nomesAtores;
+                        elencoElement.innerHTML = elencoHTML;
+                        console.log('Atores carregados pela rota alternativa!');
+                    }
+                })
+                .catch(err2 => console.error('Erro na segunda tentativa:', err2));
         });
 }
 
