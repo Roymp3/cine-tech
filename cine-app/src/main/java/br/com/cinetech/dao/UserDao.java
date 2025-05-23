@@ -153,4 +153,34 @@ public class UserDao {
         }
         return null;
     }
+
+    /**
+     * Busca um usuário pelo email
+     * @param email Email do usuário
+     * @return Objeto User ou null se não encontrado
+     */
+    public User buscarPorEmail(String email) {
+        String SQL = "SELECT * FROM tb_usuario WHERE ds_email = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    User user = new User();
+                    user.setEmail(resultSet.getString("ds_email"));
+                    user.setNm_usuario(resultSet.getString("nm_usuario"));
+                    user.setNm_pessoa(resultSet.getString("nm_pessoa"));
+                    // Não setamos a senha por segurança
+                    user.setTelefone(resultSet.getString("nr_telefone"));
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar usuário por email: " + e.getMessage());
+        }
+        return null;
+    }
 }

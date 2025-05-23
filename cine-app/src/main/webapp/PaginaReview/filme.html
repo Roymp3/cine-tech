@@ -52,83 +52,27 @@
       </div>    </section>
 
 <div class="comentarios-container">
+  <!-- Seção para deixar um novo comentário - será exibida apenas para usuários logados -->
   <section class="comentario-novo">
     <h2>Deixe seu comentário</h2>
     <div class="comentario-card">
       <div class="usuario-info">
         <img src="../assets/images/imgfilme/user.svg" alt="avatar" class="avatar">
-        <span class="nome">Julia</span>
+        <span class="nome">Carregando...</span>
         <span class="estrelas">☆☆☆☆☆</span>
-        <span class="menu-icon">⋯</span>
       </div>
       <div class="comentario-input">
-        <input type="text" placeholder="Deixe seu comentario..." />
-        <img src="../assets/images/imgfilme/Send.svg" class="com-margem2">
+        <input type="text" placeholder="Deixe seu comentário..." />
+        <img src="../assets/images/imgfilme/Send.svg" class="com-margem2" title="Enviar comentário">
       </div>
     </div>
   </section>
 
+  <!-- Seção para exibir comentários existentes -->
   <section class="reviews">
     <h2>Reviews</h2>
-
-    <div class="comentario-card">
-      <div class="usuario-info">
-        <img src="../assets/images/imgfilme/user.svg" class="avatar">
-        <span class="nome">Jhonny</span>
-        <span class="estrelas">☆☆☆☆☆</span>
-        <span class="data">25/02/2025</span>
-        <span class="menu-icon">⋯</span>
-      </div>
-      <p class="texto">Um filme muito bom, meu filme favorito</p>
-
-    <div class="acoes">
-  <img src="../assets/images/imgfilme/Like.svg" class="com-margem btnLike" alt="Like">
-<span class="likeCount"></span>
-
-<img src="../assets/images/imgfilme/dislike.svg" class="com-margem btnDislike" alt="Dislike">
-<span class="dislikeCount"></span>
-</div>
-
-    </div>
-
-    <div class="comentario-card">
-      <div class="usuario-info">
-        <img src="../assets/images/imgfilme/user.svg" class="avatar">
-        <span class="nome">Roy</span>
-        <span class="estrelas">☆☆☆☆☆</span>
-        <span class="data">25/02/2025</span>
-        <span class="menu-icon">⋯</span>
-      </div>
-      <p class="texto">Melhor filme da trilogia</p>
-
-    <div class="acoes">
-  <img src="../assets/images/imgfilme/Like.svg" class="com-margem btnLike" alt="Like">
-<span class="likeCount"></span>
-
-<img src="../assets/images/imgfilme/dislike.svg" class="com-margem btnDislike" alt="Dislike">
-<span class="dislikeCount"></span>
-</div>
-
-    </div>
-
-    <div class="comentario-card">
-      <div class="usuario-info">
-        <img src="../assets/images/imgfilme/user.svg" class="avatar">
-        <span class="nome">Lidio</span>
-        <span class="estrelas">☆☆☆☆☆</span>
-        <span class="data">25/02/2025</span>
-        <span class="menu-icon">⋯</span>
-      </div>
-      <p class="texto">Filme perfeito</p>
-
-    <div class="acoes">
-  <img src="../assets/images/imgfilme/Like.svg" class="com-margem btnLike" alt="Like">
-<span class="likeCount"></span>
-
-<img src="../assets/images/imgfilme/dislike.svg" class="com-margem btnDislike" alt="Dislike">
-<span class="dislikeCount"></span>
-</div>
-
+    <div id="comentarios-loading" class="comentario-card">
+      <p class="texto">Carregando comentários...</p>
     </div>
   </section>
 </div>
@@ -152,12 +96,7 @@
 </footer>
 
 <script src="filme.js"></script>
-<script>
-    // Executa a função de carregamento do filme quando a página carrega
-    document.addEventListener('DOMContentLoaded', function() {
-        carregarFilme();
-    });
-</script>
+<!-- Não precisamos de script adicional aqui, o filme.js já inicializa tudo quando a página carrega -->
 
 </body>
 </html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTech - Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        .btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        .output {
+            min-height: 100px;
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CineTech - Página de Depuração</h1>
+    
+    <div class="card">
+        <h2>Informações do Ambiente</h2>
+        <div id="env-info"></div>
+    </div>
+
+    <div class="card">
+        <h2>Teste de APIs</h2>
+        <button class="btn" onclick="testarEstatisticas()">Testar API de Estatísticas</button>
+        <button class="btn" onclick="testarFilmesMaisAcessados()">Testar API de Filmes Mais Acessados</button>
+        <button class="btn" onclick="testarListarFilmes()">Testar API de Listar Filmes</button>
+        <button class="btn" onclick="testarListarAtores()">Testar API de Listar Atores</button>
+        
+        <h3>Resultado:</h3>
+        <pre id="api-output" class="output">Resultados aparecerão aqui...</pre>
+    </div>
+    
+    <div class="card">
+        <h2>Teste de Context Path</h2>
+        <button class="btn" onclick="detectarContextPath()">Detectar Context Path</button>
+        <div id="context-path-info"></div>
+    </div>
+
+    <script>
+        // Exibir informações do ambiente
+        document.getElementById('env-info').innerHTML = `
+            <p><strong>URL atual:</strong> ${window.location.href}</p>
+            <p><strong>Origem:</strong> ${window.location.origin}</p>
+            <p><strong>Pathname:</strong> ${window.location.pathname}</p>
+            <p><strong>Host:</strong> ${window.location.host}</p>
+            <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+        `;
+        
+        // Detectar context path
+        function detectarContextPath() {
+            const path = window.location.pathname;
+            let contextPath = '';
+            
+            const possiblePaths = [];
+            
+            // Método 1: Analisar o pathname atual
+            if (path.includes('/cine-app/')) {
+                possiblePaths.push('/cine-app');
+            }
+            
+            // Método 2: Primeira parte do pathname
+            const parts = path.split('/');
+            if (parts.length > 1 && parts[1].length > 0) {
+                possiblePaths.push('/' + parts[1]);
+            }
+            
+            // Método 3: Verificar se estamos em castore
+            if (path.includes('/castore/')) {
+                possiblePaths.push('/castore');
+            }
+            
+            // Método 4: Raiz
+            possiblePaths.push('');
+            
+            document.getElementById('context-path-info').innerHTML = `
+                <p><strong>Caminhos possíveis detectados:</strong></p>
+                <ul>${possiblePaths.map(p => `<li>${p || '(raiz)'}</li>`).join('')}</ul>
+                <p>Testando caminhos...</p>
+            `;
+            
+            // Testar cada caminho possível
+            const results = document.createElement('div');
+            
+            possiblePaths.forEach((p, i) => {
+                const url = `${window.location.origin}${p}/estatisticas`;
+                
+                fetch(url)
+                    .then(response => {
+                        const resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `
+                            <p>Caminho <strong>${p || '(raiz)'}</strong>: 
+                               <strong>${response.ok ? '✅ Funciona!' : '❌ Falhou'}</strong> (Status: ${response.status})
+                            </p>
+                        `;
+                        results.appendChild(resultDiv);
+                    })
+                    .catch(error => {
+                        const resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `
+                            <p>Caminho <strong>${p || '(raiz)'}</strong>: 
+                               <strong>❌ Erro</strong> (${error.message})
+                            </p>
+                        `;
+                        results.appendChild(resultDiv);
+                    });
+            });
+            
+            setTimeout(() => {
+                document.getElementById('context-path-info').appendChild(results);
+            }, 1000);
+        }
+        
+        // Testar API de estatísticas
+        function testarEstatisticas() {
+            const output = document.getElementById('api-output');
+            output.textContent = "Testando API de estatísticas...";
+            
+            // Tentar várias URLs possíveis
+            const urls = [
+                "/estatisticas",
+                "/cine-app/estatisticas",
+                "/castore/estatisticas",
+                "../estatisticas"
+            ];
+            
+            testMultipleUrls(urls, output);
+        }
+        
+        // Testar API de filmes mais acessados
+        function testarFilmesMaisAcessados() {
+            const output = document.getElementById('api-output');
+            output.textContent = "Testando API de filmes mais acessados...";
+            
+            // Tentar várias URLs possíveis
+            const urls = [
+                "/filmesMaisAcessados?ordem=maior",
+                "/cine-app/filmesMaisAcessados?ordem=maior",
+                "/castore/filmesMaisAcessados?ordem=maior",
+                "../filmesMaisAcessados?ordem=maior"
+            ];
+            
+            testMultipleUrls(urls, output);
+        }
+        
+        // Testar API de listar filmes
+        function testarListarFilmes() {
+            const output = document.getElementById('api-output');
+            output.textContent = "Testando API de listar filmes...";
+            
+            // Tentar várias URLs possíveis
+            const urls = [
+                "/cadastrarFilme",
+                "/cine-app/cadastrarFilme",
+                "/castore/cadastrarFilme",
+                "../cadastrarFilme"
+            ];
+            
+            testMultipleUrls(urls, output);
+        }
+        
+        // Testar API de listar atores
+        function testarListarAtores() {
+            const output = document.getElementById('api-output');
+            output.textContent = "Testando API de listar atores...";
+            
+            // Tentar várias URLs possíveis
+            const urls = [
+                "/listarAtores",
+                "/cine-app/listarAtores",
+                "/castore/listarAtores",
+                "../listarAtores"
+            ];
+            
+            testMultipleUrls(urls, output);
+        }
+        
+        // Função auxiliar para testar várias URLs
+        function testMultipleUrls(urls, outputElement) {
+            let results = "Resultados:\n\n";
+            
+            Promise.all(urls.map(url => {
+                const fullUrl = window.location.origin + url;
+                
+                return fetch(fullUrl)
+                    .then(response => {
+                        return response.text().then(text => {
+                            return {
+                                url: fullUrl,
+                                status: response.status,
+                                ok: response.ok,
+                                data: text.substring(0, 200) + (text.length > 200 ? "..." : "")
+                            };
+                        });
+                    })
+                    .catch(error => {
+                        return {
+                            url: fullUrl,
+                            error: error.message
+                        };
+                    });
+            })).then(results => {
+                let output = "Resultados:\n\n";
+                
+                results.forEach(result => {
+                    if (result.error) {
+                        output += `URL: ${result.url}\nErro: ${result.error}\n\n`;
+                    } else {
+                        output += `URL: ${result.url}\nStatus: ${result.status}\nSucesso: ${result.ok ? "Sim" : "Não"}\n`;
+                        output += `Dados: ${result.data}\n\n`;
+                    }
+                });
+                
+                outputElement.textContent = output;
+            });
+        }
+    </script>
+</body>
+</html>

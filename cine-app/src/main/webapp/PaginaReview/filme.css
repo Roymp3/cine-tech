@@ -220,6 +220,16 @@ header h1 {
   font-size: 13px;
 }
 
+.usuario-info .estrela {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.usuario-info .estrela:hover,
+.usuario-info .estrela-selecionada {
+  color: #FFD700;
+}
+
 .usuario-info .data {
   margin-left: auto;
   font-size: 12px;
@@ -285,6 +295,61 @@ header h1 {
   border-left: 4px solid #d32f2f;
   color: #d32f2f;
   border-radius: 0 4px 4px 0;
+}
+
+/* Estilização para o sistema de comentários */
+.menu-options {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.menu-options:hover {
+  color: #d32f2f;
+}
+
+.btnLike, .btnDislike {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btnLike:hover, .btnDislike:hover {
+  transform: scale(1.2);
+}
+
+.btnLike:active, .btnDislike:active {
+  transform: scale(0.95);
+}
+
+.comentario-input img {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.comentario-input img:hover {
+  transform: scale(1.1);
+}
+
+.com-margem2 {
+  margin-left: 10px;
+}
+
+.comentario-card p a {
+  color: #494850;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Animação de carregamento */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+#comentarios-loading {
+  animation: pulse 1.5s infinite;
 }
 
 footer {
