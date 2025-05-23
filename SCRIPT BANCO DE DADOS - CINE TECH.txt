@@ -12,7 +12,7 @@
 -- DROP TABLES EM ORDEM REVERSA (DEPENDÊNCIAS)
 -- ===============================================
 
-DROP TABLE IF EXISTS ator_em_filme;
+DROP TABLE IF EXISTS tb_filme_ator;
 DROP TABLE IF EXISTS tb_comentario;
 DROP TABLE IF EXISTS tb_filme;
 DROP TABLE IF EXISTS tb_ator;
@@ -23,21 +23,21 @@ DROP TABLE IF EXISTS tb_usuario;
 -- Armazena dados de login e perfil do usuário
 -- ===============================================
 
-CREATE TABLE IF NOT EXISTS tb_usuario (
+CREATE TABLE tb_usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nm_pessoa VARCHAR(100) NOT NULL,
     nm_usuario VARCHAR(50) NOT NULL UNIQUE,
     ds_senha VARCHAR(255) NOT NULL,
     nr_telefone VARCHAR(20),
     ds_email VARCHAR(100) UNIQUE
-);
+) ENGINE=InnoDB;
 
 -- ===============================================
 -- TABELA: tb_ator
 -- Atores com dados completos e foto
 -- ===============================================
 
-CREATE TABLE IF NOT EXISTS tb_ator (
+CREATE TABLE tb_ator (
     id_ator INT AUTO_INCREMENT PRIMARY KEY,
     nm_ator VARCHAR(100) NOT NULL,
     ds_biografia TEXT,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS tb_ator (
     ds_premios VARCHAR(255),
     ds_filmes_famosos VARCHAR(255),
     img_foto BLOB
-);
+) ENGINE=InnoDB;
 
 -- ===============================================
 -- TABELA: tb_filme
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS tb_ator (
 -- Inclui suporte a imagens (BLOB) e destaque
 -- ===============================================
 
-CREATE TABLE IF NOT EXISTS tb_filme (
+CREATE TABLE tb_filme (
     id_filme INT AUTO_INCREMENT PRIMARY KEY,
     NOME VARCHAR(255) NOT NULL,
     SINOPSE TEXT,
@@ -62,32 +62,33 @@ CREATE TABLE IF NOT EXISTS tb_filme (
     BANNER BLOB,
     BANNER_FIXO BLOB COMMENT 'Banner com dimensões fixas: 1556x472.35',
     destaqueDaSemana BOOLEAN DEFAULT FALSE
-);
+) ENGINE=InnoDB;
 
 -- ===============================================
--- TABELA: ator_em_filme
+-- TABELA: tb_filme_ator
 -- Relacionamento N:N entre atores e filmes
 -- ===============================================
 
-CREATE TABLE IF NOT EXISTS ator_em_filme (
-    id_filme INT,
-    id_ator INT,
-    PRIMARY KEY (id_filme, id_ator),
-    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme),
-    FOREIGN KEY (id_ator) REFERENCES tb_ator(id_ator)
-);
+CREATE TABLE tb_filme_ator (
+    id_filme_ator INT AUTO_INCREMENT PRIMARY KEY,
+    id_filme INT NOT NULL,
+    id_ator INT NOT NULL,
+    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme) ON DELETE CASCADE,
+    FOREIGN KEY (id_ator) REFERENCES tb_ator(id_ator) ON DELETE CASCADE,
+    UNIQUE (id_filme, id_ator)
+) ENGINE=InnoDB;
 
 -- ===============================================
 -- TABELA: tb_comentario
 -- Comentários e notas feitos por usuários em filmes
 -- ===============================================
 
-CREATE TABLE IF NOT EXISTS tb_comentario (
+CREATE TABLE tb_comentario (
     id_comentario INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT,
     id_filme INT,
     ds_nota DECIMAL(2,1),
     txt_comentario VARCHAR(600),
-    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
-    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme)
-);
+    FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario) ON DELETE SET NULL,
+    FOREIGN KEY (id_filme) REFERENCES tb_filme(id_filme) ON DELETE CASCADE
+) ENGINE=InnoDB;

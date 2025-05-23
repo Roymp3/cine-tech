@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/cadastrarAtor", "/listarAtores", "/buscarAtor", "/obterFotoAtor"})
+@WebServlet(urlPatterns = {"/cadastrarAtor", "/listarAtores", "/buscarAtor", "/obterFotoAtor", "/buscarAtores", "/buscarAtorPorNome", "/atoresPorFilme"})
 @MultipartConfig(maxFileSize = 1024 * 1024 * 5)
 public class AtorServlet extends HttpServlet {    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,13 +34,13 @@ public class AtorServlet extends HttpServlet {    @Override
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
-    }
-      @Override
+    }      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-          String idParam = request.getParameter("id");
+        
+        String idParam = request.getParameter("id");
         
         if (idParam != null && request.getServletPath().equals("/obterFotoAtor")) {
             try {
@@ -53,13 +53,28 @@ public class AtorServlet extends HttpServlet {    @Override
             }
         }
           String action = request.getServletPath();
+        String atoresFilme = request.getParameter("idFilme");
         
-        switch (action) {
+        // Handle accessing buscarAtores with idFilme parameter for backward compatibility
+        if (atoresFilme != null && !atoresFilme.trim().isEmpty() && !action.equals("/atoresPorFilme")) {
+            buscarAtoresPorFilme(request, response);
+            return;
+        }
+          switch (action) {
             case "/listarAtores":
                 listarAtores(request, response);
                 break;
             case "/buscarAtor":
                 buscarAtor(request, response);
+                break;
+            case "/buscarAtores":
+                buscarAtoresPorTermo(request, response);
+                break;
+            case "/buscarAtorPorNome":
+                buscarAtorPorNomeExato(request, response);
+                break;
+            case "/atoresPorFilme":
+                buscarAtoresPorFilme(request, response);
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -312,6 +327,96 @@ public class AtorServlet extends HttpServlet {    @Override
         }
     }
   
+    /**
+     * Busca atores baseado em um termo de pesquisa parcial para o autocomplete
+     */
+    private void buscarAtoresPorTermo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String termo = request.getParameter("termo");
+        if (termo == null || termo.trim().isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print("{\"status\":\"error\",\"message\":\"O termo de busca é obrigatório\"}");
+            return;
+        }
+        
+        try {
+            AtorDAO atorDAO = new AtorDAO();
+            List<AtorModel> atores = atorDAO.buscarPorNome(termo);
+            
+            // Converter para formato simplificado para o autocomplete
+            StringBuilder jsonBuilder = new StringBuilder("[");
+            boolean primeiro = true;
+            
+            for (AtorModel ator : atores) {
+                if (!primeiro) {
+                    jsonBuilder.append(",");
+                }
+                primeiro = false;
+                
+                jsonBuilder.append("{")
+                        .append("\"id\":").append(ator.getIdAtor()).append(",")
+                        .append("\"nome\":\"").append(ator.getNmAtor().replace("\"", "\\\"")).append("\"")
+                        .append("}");
+            }
+            jsonBuilder.append("]");
+            
+            out.print(jsonBuilder.toString());
+            atorDAO.fecharConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print("{\"status\":\"error\",\"message\":\"Erro ao buscar atores: " + e.getMessage() + "\"}");
+        }
+    }
+    
+    /**
+     * Busca um ator pelo nome exato
+     */
+    private void buscarAtorPorNomeExato(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String nome = request.getParameter("nome");
+        if (nome == null || nome.trim().isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print("{\"status\":\"error\",\"message\":\"O nome do ator é obrigatório\"}");
+            return;
+        }
+          try {
+            AtorDAO atorDAO = new AtorDAO();
+            // Usando o novo método para busca case-insensitive exata
+            List<AtorModel> atores = atorDAO.buscarPorNomeExato(nome);
+            
+            if (!atores.isEmpty()) {
+                // Se encontrar correspondências exatas, retorna a primeira
+                AtorModel ator = atores.get(0);
+                StringBuilder jsonBuilder = new StringBuilder();
+                
+                jsonBuilder.append("{")
+                        .append("\"id\":").append(ator.getIdAtor()).append(",")
+                        .append("\"nome\":\"").append(ator.getNmAtor().replace("\"", "\\\"")).append("\"")
+                        .append("}");
+                
+                out.print(jsonBuilder.toString());
+            } else {
+                // Se não encontrar, retorna objeto vazio
+                out.print("{}");
+            }
+            
+            atorDAO.fecharConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print("{\"status\":\"error\",\"message\":\"Erro ao buscar ator: " + e.getMessage() + "\"}");
+        }
+    }
+  
     private void servirFotoAtor(HttpServletResponse response, int id) throws ServletException, IOException {
         System.out.println("Servindo foto do ator com ID: " + id);
         
@@ -378,17 +483,67 @@ public class AtorServlet extends HttpServlet {    @Override
         }
     }
   
+    private void buscarAtoresPorFilme(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String idFilmeParam = request.getParameter("idFilme");
+        
+        if (idFilmeParam == null || idFilmeParam.trim().isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print("{\"erro\":\"ID do filme não informado\"}");
+            return;
+        }
+        
+        try {
+            int idFilme = Integer.parseInt(idFilmeParam);
+            AtorDAO atorDao = new AtorDAO();
+            List<AtorModel> atores = atorDao.buscarAtoresPorFilme(idFilme);
+            
+            // Construir JSON com a lista de atores
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.append("[");
+            
+            for (int i = 0; i < atores.size(); i++) {
+                AtorModel ator = atores.get(i);                jsonBuilder.append("{");
+                jsonBuilder.append("\"id\":").append(ator.getIdAtor()).append(",");
+                jsonBuilder.append("\"nome\":\"").append(escaparJSON(ator.getNmAtor())).append("\"");
+                jsonBuilder.append("}");
+                
+                if (i < atores.size() - 1) {
+                    jsonBuilder.append(",");
+                }
+            }
+            
+            jsonBuilder.append("]");
+            out.print(jsonBuilder.toString());
+            
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print("{\"erro\":\"ID do filme inválido\"}");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print("{\"erro\":\"" + escaparJSON(e.getMessage()) + "\"}");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Escapa caracteres especiais para JSON
+     * @param input String a ser escapada
+     * @return String escapada
+     */
     private String escaparJSON(String input) {
         if (input == null) {
             return "";
         }
-          return input.replace("\\", "\\\\")
+        return input.replace("\\", "\\\\")
                    .replace("\"", "\\\"")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t")
                    .replace("\b", "\\b")
                    .replace("\f", "\\f")
-                   .replace("/", "\\/");
+                   .replace("\n", "\\n")
+                   .replace("\r", "\\r")
+                   .replace("\t", "\\t");
     }
 }

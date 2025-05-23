@@ -31,8 +31,10 @@ function carregarDestaqueSemana() {
             return response.json();
         })
         .then(filmes => {
+            console.log(filmes);
             if (!filmes || filmes.length === 0) return;
-            const destaque = filmes.find(f => f.id === 8) || filmes[0];
+            const destaque = filmes.find(f => 
+                f.destaqueSemana == true) || filmes[0];
             const destaqueContainer = document.getElementById('destaque-semanal');
             if (destaqueContainer) {
                 destaqueContainer.innerHTML = '';
@@ -329,6 +331,14 @@ function criarCardDestaque(filme) {
     content.appendChild(rating);
 
     card.appendChild(content);
+
+    if (filme.id) {
+        card.setAttribute('data-filme-id', filme.id);
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+            window.location.href = `./PaginaReview/filme.html?id=${filme.id}`;
+        });
+    }
     return card;
 }
 
@@ -554,11 +564,10 @@ function criarCardMelhoresAvaliados(filme) {
         card.setAttribute('data-filme-id', filme.id);
     }
     
+    card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
         if (filme.id) {
-            alert(`Filme: ${filme.nome}\nGênero: ${filme.genero}\nSinopse: ${filme.sinopse}`);
-        } else {
-            alert(`Filme: ${filme.nome}\nGênero: ${filme.genero || 'N/A'}\nSinopse: ${filme.sinopse || 'N/A'}`);
+            window.location.href = `./PaginaReview/filme.html?id=${filme.id}`;
         }
     });
     
@@ -605,9 +614,10 @@ function criarCardCategoria(filme) {
         card.setAttribute('data-filme-id', filme.id);
     }
     
+    card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
-        if (filme.id && filme.nome) {
-            alert(`Filme: ${filme.nome}`);
+        if (filme.id) {
+            window.location.href = `./PaginaReview/filme.html?id=${filme.id}`;
         }
     });
     
