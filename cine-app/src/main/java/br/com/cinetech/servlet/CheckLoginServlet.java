@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/check-login")
@@ -22,11 +23,22 @@ public class CheckLoginServlet extends HttpServlet {
         user.setEmail(ds_email);
         user.setSenha(ds_senha);
 
+        String log = "deslogado";
+        String adm = "adminn";
+
+
         UserDao userdao = new UserDao();
         boolean login = userdao.CheckLogin(user);
 
         if(login){
-            resp.getWriter().write("Login realizado com sucesso");
+            HttpSession session = req.getSession();;
+            resp.sendRedirect("/index.html");
+            log = "logado";
+            session.setAttribute("logadoo", log);
+            if(ds_email.contains("cinetech")){
+
+                session.setAttribute(("admin"), adm);
+            }
 
         }else{
             resp.getWriter().write("Email ou senha incorretos");

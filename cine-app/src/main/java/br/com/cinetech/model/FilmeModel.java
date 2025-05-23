@@ -1,5 +1,7 @@
 package br.com.cinetech.model;
 
+import java.util.Base64;
+
 public class FilmeModel {
     private int id;
     private String nome;
@@ -7,7 +9,6 @@ public class FilmeModel {
     private String sinopse;
     private byte[] banner;
     private byte[] bannerFixo;
-
 
     public FilmeModel(String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
         this.nome = nome;
@@ -17,7 +18,6 @@ public class FilmeModel {
         this.bannerFixo = bannerFixo;
     }
 
-
     public FilmeModel(int id, String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
         this.id = id;
         this.nome = nome;
@@ -25,6 +25,9 @@ public class FilmeModel {
         this.sinopse = sinopse;
         this.banner = banner;
         this.bannerFixo = bannerFixo;
+    }
+
+    public FilmeModel() {
     }
 
     // Getters e Setters
@@ -67,12 +70,27 @@ public class FilmeModel {
     public void setBanner(byte[] banner) {
         this.banner = banner;
     }
-    
+
     public byte[] getBannerFixo() {
         return bannerFixo;
     }
 
     public void setBannerFixo(byte[] bannerFixo) {
         this.bannerFixo = bannerFixo;
+    }
+
+    public String getBannerEncoded() {
+        if (banner != null) {
+            return Base64.getEncoder().encodeToString(banner);
+        }
+        return "";
+    }
+
+
+    public String getBannerFixoEncoded() {
+        if (bannerFixo != null) {
+            return Base64.getEncoder().encodeToString(bannerFixo);
+        }
+        return "";
     }
 }
