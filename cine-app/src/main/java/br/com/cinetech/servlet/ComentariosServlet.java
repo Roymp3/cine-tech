@@ -284,13 +284,8 @@ public class ComentariosServlet extends HttpServlet {
             int idFilme = Integer.parseInt(idFilmeStr);
             int avaliacao = avaliacaoStr != null ? Integer.parseInt(avaliacaoStr) : 0;
             
-            // Verificar se o usuário já comentou este filme
-            System.out.println("Verificando se usuário já comentou: idFilme=" + idFilme + ", email=" + email);
-            if (comentarioDAO.usuarioJaComentou(idFilme, email)) {
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
-                out.print("{\"error\": \"Você já comentou neste filme\"}");
-                return;
-            }
+            // Removida verificação para permitir múltiplos comentários do mesmo usuário
+            System.out.println("Permitindo comentários múltiplos: idFilme=" + idFilme + ", email=" + email);
             
             // Obter informações do usuário para o nome
             User user = userDao.buscarPorEmail(email);
@@ -520,18 +515,11 @@ public class ComentariosServlet extends HttpServlet {
             json.append(",\"email\":\"").append(email).append("\"");
             json.append(",\"admin\":").append(isAdmin);
             
-            // Verificar se já comentou no filme
+            // Removida verificação de comentário anterior para permitir múltiplos comentários
             String idFilmeStr = request.getParameter("idFilme");
-            if (idFilmeStr != null && !idFilmeStr.trim().isEmpty()) {
-                try {
-                    int idFilme = Integer.parseInt(idFilmeStr);
-                    boolean jaComentou = comentarioDAO.usuarioJaComentou(idFilme, email);
-                    json.append(",\"jaComentou\":").append(jaComentou);
-                    System.out.println("Usuário já comentou: " + jaComentou);
-                } catch (NumberFormatException e) {
-                    System.err.println("Erro ao converter idFilme: " + e.getMessage());
-                }
-            }
+            // Sempre retornar falso para jaComentou para permitir comentários múltiplos
+            json.append(",\"jaComentou\":false");
+            System.out.println("Permitindo múltiplos comentários por usuário");
             
             // Buscar nome do usuário
             User user = userDao.buscarPorEmail(email);
