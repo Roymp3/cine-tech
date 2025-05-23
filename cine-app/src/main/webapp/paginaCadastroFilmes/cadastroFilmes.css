@@ -677,3 +677,264 @@ main{
         width: 100%;
     }
 }
+
+/* Estilos para o seletor de atores */
+.atores-form {
+    margin-bottom: 20px;
+    height: auto !important;
+    min-height: 50px;
+    padding-bottom: 10px;
+}
+
+.atores-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin-top: 0;
+}
+
+.atores-input-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.atores-input-container input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    padding: 0;
+    height: 100%;
+}
+
+.atores-input-container button {
+    background-color: #494850;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.atores-input-container button:hover {
+    background-color: #5a5965;
+}
+
+.atores-selecionados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 5px 0;
+    min-height: 35px;
+    max-height: 120px;
+    overflow-y: auto;
+    width: 100%;
+    margin-top: 8px;
+    background-color: transparent;
+}
+
+.ator-tag {
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.ator-tag-nome {
+    margin-right: 8px;
+    color: #333;
+}
+
+.ator-tag-remover {
+    border: none;
+    background: none;
+    color: #666;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 16px;
+    padding: 0;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ator-tag-remover:hover {
+    color: #333;
+}
+
+/* Estilo para a lista de sugestões de atores */
+.ui-autocomplete {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: auto !important;
+    padding: 0;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.ui-menu-item {
+    cursor: pointer;
+    padding: 8px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ui-menu-item:last-child {
+    border-bottom: none;
+}
+
+.ui-state-focus,
+.ui-menu-item:hover {
+    background-color: #f8f8f8;
+}
+
+/* Override to fix positioning of autocomplete dropdown */
+.ui-autocomplete {
+    position: absolute !important;
+}
+
+/* Additional fixes for actor selection form */
+.input-form.atores-form {
+    padding-bottom: 15px;
+    height: auto;
+    max-height: none;
+    min-height: 50px;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.input-form.atores-form img {
+    margin-top: 5px;
+}
+
+/* Hide any extra inputs that might be appearing */
+.input-form.atores-form > input {
+    display: none;
+}
+
+/* Fix positioning and appearance */
+.atores-container {
+    margin-top: 0;
+}
+
+/* Make sure the actor tags are properly styled */
+.atores-selecionados {
+    margin-top: 8px;
+    background-color: transparent;
+}
+
+/* Ensure jQuery UI autocomplete appears correctly */
+.ui-front {
+    z-index: 1000;
+}
+
+.ui-autocomplete {
+    margin-top: 5px;
+    width: calc(100% - 80px) !important;
+}
+
+/* Focus state enhancements */
+.atores-form.focused {
+    border-color: #494850;
+    box-shadow: 0 2px 6px rgba(73, 72, 80, 0.15);
+}
+
+/* Ensure proper spacing for actor tags */
+.ator-tag {
+    margin-bottom: 3px;
+    transition: all 0.2s ease;
+}
+
+.ator-tag:hover {
+    background-color: #ebebeb;
+}
+
+/* Fix for input spacing */
+.atores-input-container {
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments for actor component */
+@media (max-width: 600px) {
+    .input-form.atores-form {
+        padding: 8px 12px;
+        min-height: 45px;
+    }
+    
+    .atores-input-container button {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .atores-selecionados {
+        max-height: 100px;
+    }
+}
+
+/* Estilos para a pesquisa em tempo real de atores */
+.resultados-pesquisa {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    margin-top: 5px;
+}
+
+.resultado-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.resultado-item:last-child {
+    border-bottom: none;
+}
+
+.resultado-item:hover, 
+.resultado-item.active {
+    background-color: #f8f8f8;
+}
+
+.resultados-pesquisa:empty {
+    display: none !important;
+}
+
+/* Posicionamento correto para os resultados em tempo real */
+.atores-input-container {
+    position: relative;
+}
+
+/* Remover estilos do jQuery UI autocomplete já que agora estamos usando nossa própria implementação */
+.ui-autocomplete {
+    display: none !important;
+}

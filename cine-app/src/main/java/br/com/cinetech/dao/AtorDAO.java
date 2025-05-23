@@ -101,20 +101,29 @@ public class AtorDAO {
             e.printStackTrace();
             return null;
         }
-    }
-  
-    public List<AtorModel> buscarPorNome(String nome) {
-        String SQL = "SELECT * FROM tb_ator WHERE nm_ator LIKE ?";
+    }    public List<AtorModel> buscarPorNome(String nome) {
+        // Usando LOWER para tornar a busca case-insensitive e TRIM para remover espaços
+        // Ordenar os resultados - correspondências exatas primeiro, depois parciais
+        String SQL = "SELECT *, " +
+                    "CASE WHEN LOWER(TRIM(nm_ator)) = LOWER(TRIM(?)) THEN 1 " +
+                    "     WHEN LOWER(TRIM(nm_ator)) LIKE LOWER(TRIM(?) || '%') THEN 2 " +
+                    "     ELSE 3 END AS relevancia " +
+                    "FROM tb_ator WHERE LOWER(TRIM(nm_ator)) LIKE LOWER(TRIM(?)) " +
+                    "ORDER BY relevancia, nm_ator";
+                    
         List<AtorModel> atores = new ArrayList<>();
         
         System.out.println("Buscando atores por nome: " + nome);
-        
-        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+          try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
              PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
             
             System.out.println("Conexão com banco de dados estabelecida");
             
-            preparedStatement.setString(1, "%" + nome + "%");
+            // Parâmetros para ordenação por relevância
+            preparedStatement.setString(1, nome);
+            preparedStatement.setString(2, nome);
+            // Parâmetro para a condição WHERE
+            preparedStatement.setString(3, "%" + nome + "%");
             
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -137,7 +146,6 @@ public class AtorDAO {
             return atores;
         }
     }
-  
 
     public List<AtorModel> listarTodos() {
         String SQL = "SELECT * FROM tb_ator";
@@ -195,5 +203,82 @@ public class AtorDAO {
         }
         
         return ator;
+    }
+
+    /**
+     * Busca um ator pelo nome exato de forma case-insensitive
+     * @param nome Nome exato do ator para busca
+     * @return Lista de AtorModel com o nome exato (ignorando capitalização)
+     */    public List<AtorModel> buscarPorNomeExato(String nome) {
+        // Usando LOWER para tornar a busca case-insensitive mas mantendo a correspondência exata
+        String SQL = "SELECT * FROM tb_ator WHERE LOWER(TRIM(nm_ator)) = LOWER(TRIM(?))";
+        List<AtorModel> atores = new ArrayList<>();
+        
+        System.out.println("Buscando ator pelo nome exato (case-insensitive): " + nome);
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            
+            preparedStatement.setString(1, nome);
+            
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    AtorModel ator = extrairAtorDoResultSet(resultSet);
+                    atores.add(ator);
+                    System.out.println("Ator encontrado: " + ator.getNmAtor());
+                }
+            }
+            
+            System.out.println("Busca finalizada. Total de atores encontrados: " + atores.size());
+            return atores;
+            
+        } catch (SQLException e) {
+            System.out.println("Erro SQL ao buscar ator por nome exato: " + e.getMessage());
+            e.printStackTrace();
+            return atores;
+        } catch (Exception e) {
+            System.out.println("Erro inesperado ao buscar ator por nome exato: " + e.getMessage());
+            e.printStackTrace();
+            return atores;
+        }
+    }
+
+    /**
+     * Busca todos os atores associados a um filme específico
+     * @param filmeId ID do filme
+     * @return Lista de atores do filme
+     */    public List<AtorModel> buscarAtoresPorFilme(int filmeId) {
+        List<AtorModel> atores = new ArrayList<>();
+        
+        String SQL = "SELECT a.id_ator, a.nm_ator, a.ds_biografia, a.dt_nascimento, " +
+                    "a.nm_nacionalidade, a.ds_premios, a.ds_filmes_famosos " +
+                    "FROM tb_ator a " +
+                    "INNER JOIN tb_filme_ator fa ON a.id_ator = fa.id_ator " +
+                    "WHERE fa.id_filme = ?";
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            
+            preparedStatement.setInt(1, filmeId);
+            
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    AtorModel ator = new AtorModel();
+                    ator.setIdAtor(resultSet.getInt("id_ator"));
+                    ator.setNmAtor(resultSet.getString("nm_ator"));
+                    ator.setDsBiografia(resultSet.getString("ds_biografia"));
+                    ator.setDtNascimento(resultSet.getDate("dt_nascimento"));
+                    ator.setNmNacionalidade(resultSet.getString("nm_nacionalidade"));
+                    ator.setDsPremios(resultSet.getString("ds_premios"));
+                    ator.setDsFilmesFamosos(resultSet.getString("ds_filmes_famosos"));
+                    
+                    atores.add(ator);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return atores;
     }
 }

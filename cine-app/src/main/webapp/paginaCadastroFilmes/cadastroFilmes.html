@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="cadastroFilmes.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <meta name="viewport" content="width=   device-width, initial-scale=1">
     <title>Cadastro filmes | Cinetech</title>
@@ -59,8 +62,8 @@
                         </button>
 
                         <div class="checkbox-container">
-                            <input type="checkbox" id="emCartaz" name="emCartaz" value="true">
-                            <label for="emCartaz">Marque se o filme está em cartaz</label>
+                            <input type="checkbox" id="destaqueSemana" name="destaqueSemana" value="true">
+                            <label for="destaqueSemana">Marque se o filme é o destaque da semana</label>
                         </div>
 
                     </div>
@@ -117,12 +120,16 @@
                     <div class="input-form">
                         <img src="../assets/images/pageCadastrarFilmes/icon-data-fixed.svg" alt="Ícone data">
                         <input type="date" id="dataEstreiaFilme" placeholder="Data de estreia">
-                    </div>
-                    
-                    <div class="input-form">
-                        <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone trailer">
-                        <input type="url" id="trailerUrlFilme" placeholder="URL do trailer (YouTube)">
-                    </div>                    <div class="botoes">
+                    </div>                    <div class="input-form atores-form">
+                        <img src="../assets/images/pageCadastrarFilmes/icon-sinopse-fixed.svg" alt="Ícone atores">
+                        <div class="atores-container">
+                            <div class="atores-input-container">
+                                <input type="text" id="atorInput" placeholder="Digite o nome do ator...">
+                                <button type="button" id="adicionarAtor">+</button>
+                            </div>
+                            <div id="atoresSelecionados" class="atores-selecionados"></div>
+                        </div>
+                    </div><div class="botoes">
                         <button class="botao botao-cancelar">Cancelar</button>
                         <button class="botao botao-salvar">Salvar</button>
                     </div>

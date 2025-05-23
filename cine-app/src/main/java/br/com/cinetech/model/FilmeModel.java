@@ -9,22 +9,26 @@ public class FilmeModel {
     private String sinopse;
     private byte[] banner;
     private byte[] bannerFixo;
+    private boolean destaqueSemana;
 
-    public FilmeModel(String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
+    public FilmeModel(String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo, boolean destaqueSemana) {
         this.nome = nome;
         this.genero = genero;
         this.sinopse = sinopse;
         this.banner = banner;
         this.bannerFixo = bannerFixo;
+        this.destaqueSemana = destaqueSemana;
     }
 
-    public FilmeModel(int id, String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo) {
+
+    public FilmeModel(int id, String nome, String genero, String sinopse, byte[] banner, byte[] bannerFixo,boolean destacarSemana) {
         this.id = id;
         this.nome = nome;
         this.genero = genero;
         this.sinopse = sinopse;
         this.banner = banner;
         this.bannerFixo = bannerFixo;
+        this.destaqueSemana = destacarSemana;
     }
 
     public FilmeModel() {
@@ -79,6 +83,15 @@ public class FilmeModel {
         this.bannerFixo = bannerFixo;
     }
 
+
+    public boolean isDestaqueSemana() {
+        return destaqueSemana;
+    }
+
+    public void setDestaqueSemana(boolean destaqueSemana) {
+        this.destaqueSemana = destaqueSemana;
+    }
+  
     public String getBannerEncoded() {
         if (banner != null) {
             return Base64.getEncoder().encodeToString(banner);
