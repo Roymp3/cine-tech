@@ -12,13 +12,34 @@
        <a href="/is-login" style="text-decoration:none"> <h3>Meu Perfil</h3></a>
     </div>    <ul>
         <li><a href="/index.html"><i class="fas fa-home"></i> Página Inicial</a></li>
-        <li><a href="/paginaCadastroFilmes/cadastroFilmes.html"><i class="fas fa-film"></i> Cadastrar Filmes</a></li>
-        <li><a href="/paginaCadastroAtores/paginaCadastroAtores.html"><i class="fas fa-user-tie"></i> Cadastrar Atores</a></li>
-        <li><a href="/paginaDashboardAdmin/pageDashboardAdmin.html"><i class="fas fa-chart-bar"></i> Dashboard</a></li>
-        <li><a href="/PaginaDeLogin/PaginaDeLogin.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+    <li style="display: none;"><a href="/paginaCadastroFilmes/cadastroFilmes.html">Cadastrar Filmes</a></li>
+        <li style="display: none;" ><a href="/paginaCadastroAtores/paginaCadastroAtores.html"><i class="fas fa-user-tie"></i> Cadastrar Atores</a></li>
+        <li style="display: none;" ><a href="/paginaDashboardAdmin/pageDashboardAdmin.html"><i class="fas fa-chart-bar"></i> Dashboard</a></li>
+    <li><a href="/PaginaDeLogin/PaginaDeLogin.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
         <li><a href="/paginaCriarConta/paginaCriarConta.html"><i class="fas fa-user-plus"></i> Criar Conta</a></li>
         <li><a href="/logoutt" id="logout"> Sair</a></li>
     </ul>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("Script carregado com sucesso!");
+
+        const emailSalvo = sessionStorage.getItem('emailLogado');
+        console.log("Email salvo:", emailSalvo);
+
+        // Verifica se o e-mail está salvo e se pertence a um administrador
+        if (emailSalvo && emailSalvo.includes("cinetech.com")) {
+            const botoesAdmin = document.querySelectorAll('li[style*="display: none"]');
+            botoesAdmin.forEach(botao => {
+                botao.style.display = 'inline'; // Exibe os itens de administrador
+            });
+            console.log("Usuário é administrador. Itens exibidos.");
+        } else {
+            console.log("Usuário não é administrador. Itens de admin ocultos.");
+        }
+    });
+</script>
+
 </body>
 </html>

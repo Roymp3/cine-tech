@@ -161,6 +161,7 @@
     </div>
 </footer>
 <script src="/index.js"></script>
+<script src="PaginaPerfil/usuario.js"></script>
 
 </body>
 </html>
