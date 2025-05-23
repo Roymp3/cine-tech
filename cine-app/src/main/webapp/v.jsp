@@ -207,21 +207,21 @@
 // Adicione evento de clique a todos os cartões de filme
 document.addEventListener('DOMContentLoaded', function() {
     const filmeCards = document.querySelectorAll('.filme-card');
-    
+
     filmeCards.forEach(card => {
         card.style.cursor = 'pointer';
     });
-    
+
     // Certificando-se que o footer está sempre no fim da página
     function ajustarAlturaPagina() {
         const pageContent = document.querySelector('.page-content');
         const windowHeight = window.innerHeight;
         const footerHeight = document.querySelector('footer').offsetHeight;
-        
+
         // Garante altura mínima para empurrar o footer para baixo
         pageContent.style.minHeight = (windowHeight - footerHeight) + 'px';
     }
-    
+
     // Executa no carregamento e redimensionamento da janela
     ajustarAlturaPagina();
     window.addEventListener('resize', ajustarAlturaPagina);

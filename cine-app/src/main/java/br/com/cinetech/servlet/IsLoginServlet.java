@@ -13,13 +13,11 @@ public class IsLoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false); // pega a sessão se existir, não cria uma nova
+        HttpSession session = req.getSession(false);
 
         if (session != null && "logado".equals(session.getAttribute("logadoo"))) {
-            // Está logado, manda pra página de usuário
-            resp.sendRedirect("/PaginaPerfil/usuario.html");
+            resp.sendRedirect("/perfil");
         } else {
-            // Não está logado, manda pra página de login
             resp.sendRedirect("/PaginaDeLogin/PaginaDeLogin.html");
         }
     }

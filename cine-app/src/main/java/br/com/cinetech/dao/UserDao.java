@@ -130,4 +130,27 @@ public class UserDao {
         }
         return false;
     }
+
+    public String getUserName(User user) {
+        String SQL = "SELECT nm_usuario FROM tb_usuario WHERE ds_email = ?";
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, user.getEmail());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("usuario encontardo");
+                    return resultSet.getString("nm_usuario");
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error ao encontrar usuario: " + e.getMessage());
+        }
+        return null;
+    }
 }

@@ -35,6 +35,7 @@ public class CheckLoginServlet extends HttpServlet {
             resp.sendRedirect("/index.html");
             log = "logado";
             session.setAttribute("logadoo", log);
+            session.setAttribute("email", user.getEmail());
             if(ds_email.contains("cinetech")){
 
                 session.setAttribute(("admin"), adm);
