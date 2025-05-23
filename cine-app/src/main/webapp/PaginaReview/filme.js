@@ -90,10 +90,20 @@ function preencherInfoFilme(filme) {
     buscarAtoresDoFilme(filme.id);
     
     // Atualizar a imagem do poster se disponível
-    if (filme.bannerEncoded) {
-        const imgElement = document.querySelector('.filme-info .poster');
-        if (imgElement) {
+    const imgElement = document.querySelector('.filme-info .poster');
+    if (imgElement) {
+        if (filme.bannerEncoded) {
             imgElement.src = `data:image/jpeg;base64,${filme.bannerEncoded}`;
+            imgElement.alt = `Poster de ${filme.nome}`;
+        } else if (filme.bannerUrl) {
+            imgElement.src = filme.bannerUrl;
+            imgElement.alt = `Poster de ${filme.nome}`;
+            // fallback para url absoluta caso necessário
+            imgElement.onerror = function() {
+                imgElement.src = `/cadastrarFilme?imagem=banner&id=${filme.id}`;
+            };
+        } else {
+            // mantém imagem padrão
             imgElement.alt = `Poster de ${filme.nome}`;
         }
     }

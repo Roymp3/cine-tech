@@ -1,3 +1,4 @@
+
 package br.com.cinetech.servlet;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -71,7 +72,7 @@ public class FilmeServlet extends HttpServlet {    @Override
         // Verificar se é uma requisição de imagem
         String imagemParam = request.getParameter("imagem");
         String idParam = request.getParameter("id");
-          if (imagemParam != null && idParam != null) {
+        if (imagemParam != null && idParam != null) {
             try {
                 int id = Integer.parseInt(idParam);
                 servirImagemFilme(response, id, imagemParam);
@@ -81,7 +82,42 @@ public class FilmeServlet extends HttpServlet {    @Override
                 return;
             }
         }
-        
+
+        // Se veio o parâmetro id, retornar apenas o filme correspondente
+        if (idParam != null && !idParam.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idParam);
+                FilmeDAO filmeDAO = new FilmeDAO();
+                FilmeModel filme = filmeDAO.GetFilme(id);
+                response.setContentType("application/json; charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
+                if (filme == null) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"error\": \"Filme não encontrado\"}");
+                    return;
+                }
+                // Montar JSON do filme individual
+                StringBuilder jsonBuilder = new StringBuilder();
+                jsonBuilder.append("{");
+                jsonBuilder.append("\"id\":").append(filme.getId()).append(",");
+                jsonBuilder.append("\"nome\":\"").append(escaparJSON(filme.getNome())).append("\",");
+                jsonBuilder.append("\"genero\":\"").append(escaparJSON(filme.getGenero())).append("\",");
+                jsonBuilder.append("\"sinopse\":\"").append(escaparJSON(filme.getSinopse())).append("\",");
+                jsonBuilder.append("\"destaqueSemana\":").append(filme.isDestaqueSemana()).append(",");
+                jsonBuilder.append("\"bannerUrl\":\"").append("cadastrarFilme?imagem=banner&id=").append(filme.getId()).append("\"");
+                jsonBuilder.append(",");
+                jsonBuilder.append("\"bannerFixoUrl\":\"").append("cadastrarFilme?imagem=bannerFixo&id=").append(filme.getId()).append("\"");
+                jsonBuilder.append("}");
+                PrintWriter out = response.getWriter();
+                out.print(jsonBuilder.toString());
+                out.flush();
+                return;
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido");
+                return;
+            }
+        }
+
         // Endpoint para listar atores de um filme
         String action = request.getParameter("action");
         if (action != null && action.equals("listarAtores")) {
@@ -97,61 +133,45 @@ public class FilmeServlet extends HttpServlet {    @Override
                 }
             }
         }
-        
+
         // Comportamento normal para listagem de filmes
-        response.setContentType("application/json");
+        response.setContentType("application/json; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
         // Obter parâmetro de filtro por gênero (opcional)
         request.setCharacterEncoding("UTF-8");
         String genero = request.getParameter("genero");
-        
+
         try {
             FilmeDAO filmeDAO = new FilmeDAO();
             java.util.List<FilmeModel> filmes = filmeDAO.listarFilmes(genero);
-            
+
             // Montar JSON manualmente
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.append("[");
-            
+
             for (int i = 0; i < filmes.size(); i++) {
                 FilmeModel filme = filmes.get(i);
                 jsonBuilder.append("{");
                 jsonBuilder.append("\"id\":").append(filme.getId()).append(",");
                 jsonBuilder.append("\"nome\":\"").append(escaparJSON(filme.getNome())).append("\",");
-                jsonBuilder.append("\"genero\":\"").append(escaparJSON(filme.getGenero())).append("\",");                jsonBuilder.append("\"sinopse\":\"").append(escaparJSON(filme.getSinopse())).append("\",");
-                jsonBuilder.append("\"destaqueSemana\":").append(filme.isDestaqueSemana()).append(",");
+                jsonBuilder.append("\"genero\":\"").append(escaparJSON(filme.getGenero())).append("\",");                jsonBuilder.append("\"sinopse\":\"").append(escaparJSON(filme.getSinopse())).append("\",");                jsonBuilder.append("\"destaqueSemana\":").append(filme.isDestaqueSemana()).append(",");
                 // Agora vamos enviar uma URL para as imagens em vez de base64 direto
                 jsonBuilder.append("\"bannerUrl\":\"").append("cadastrarFilme?imagem=banner&id=").append(filme.getId()).append("\",");
-                jsonBuilder.append("\"bannerFixoUrl\":\"").append("cadastrarFilme?imagem=bannerFixo&id=").append(filme.getId()).append("\",");
-                
-                // Adicionar informações dos atores do filme
-                java.util.List<java.util.Map<String, Object>> atoresDoFilme = filmeDAO.buscarAtoresDoFilme(filme.getId());
-                jsonBuilder.append("\"atores\":[");
-                for (int j = 0; j < atoresDoFilme.size(); j++) {
-                    java.util.Map<String, Object> ator = atoresDoFilme.get(j);
-                    jsonBuilder.append("{");
-                    jsonBuilder.append("\"id\":").append(ator.get("id")).append(",");
-                    jsonBuilder.append("\"nome\":\"").append(escaparJSON((String)ator.get("nome"))).append("\"");
-                    jsonBuilder.append("}");
-                    if (j < atoresDoFilme.size() - 1) {
-                        jsonBuilder.append(",");
-                    }
-                }
-                jsonBuilder.append("]");
+                jsonBuilder.append("\"bannerFixoUrl\":\"").append("cadastrarFilme?imagem=bannerFixo&id=").append(filme.getId()).append("\"");
                 jsonBuilder.append("}");
                 if (i < filmes.size() - 1) {
                     jsonBuilder.append(",");
                 }
             }
-            
+
             jsonBuilder.append("]");
-            
+
             // Enviar resposta JSON
             PrintWriter out = response.getWriter();
             out.print(jsonBuilder.toString());
             out.flush();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
