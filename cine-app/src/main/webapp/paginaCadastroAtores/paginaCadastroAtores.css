@@ -102,7 +102,7 @@ main{
 .image-section {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .image-section h2 {
