@@ -146,7 +146,7 @@ public class AtorDAO {
             return atores;
         }
     }
-  
+
     public List<AtorModel> listarTodos() {
         String SQL = "SELECT * FROM tb_ator";
         List<AtorModel> atores = new ArrayList<>();

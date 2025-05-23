@@ -12,7 +12,7 @@
 <header>
 
     <img src="../PaginaPerfil/imgusuario/iconCinetech.svg" alt="CineTech logo">
-    <h1>CineTech</h1>
+    <a href="http://localhost:8080/" style="text-decoration:none"> <h1>CineTech</h1> </a>
     <div class="icons">
         <img src="../PaginaPerfil/imgusuario/account_circle.svg" alt="icon">
         <img src="../PaginaPerfil/imgusuario/menu.svg" alt="menu">
@@ -23,7 +23,7 @@
     <div class="container">
         <h2>Faça seu Login</h2>
 
-        <form action="/login" method="post">
+        <form action="/check-login" method="post">
 
             <div class="inputsLogin">
                 <label for="email">E-mail</label>
@@ -56,7 +56,7 @@
             <button type="submit">Entrar</button>
 
             <div class="register-link">
-                <span>Ainda não tenho uma <a href="#">conta</a></span>
+                <span>Ainda não tenho uma <a href="/paginaCriarConta/paginaCriarConta.html">conta</a></span>
             </div>
         </form>
     </div>

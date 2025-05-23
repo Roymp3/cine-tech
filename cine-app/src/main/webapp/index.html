@@ -15,11 +15,14 @@
 <header>
     <div class="logo">
         <img src="assets/images/pageCriarConta/iconCinetech.svg">
-        <h1>CineTech</h1>
+        <a href="http://localhost:8080/" style="text-decoration:none"> <h1>CineTech</h1> </a>
     </div>
     <div class="search-bar">
-        <input type="text" placeholder="Pesquisar filmes ou séries">
-        <i class="fas fa-search"></i>
+        <form action="/pesquisaFilme" method="get">
+            <input type="text" placeholder="Pesquisar filmes ou séries" name="search" />
+            <button type="submit" style="border:none; background-color: transparent"><i class="fas fa-search"></i></button>
+        </form>
+
     </div>
     <div id="ocultar" class="user-controls">
         <i class="far fa-bell"></i>

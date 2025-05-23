@@ -2,10 +2,12 @@ package br.com.cinetech.dao;
 
 import br.com.cinetech.model.FilmeModel;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class FilmeDAO {    
       public int CreateFilme(FilmeModel Filme){
@@ -185,6 +187,7 @@ public class FilmeDAO {
         
         return filmes;
     }
+
     
     /**
      * Vincula atores a um filme
@@ -266,4 +269,40 @@ public class FilmeDAO {
             return atores;
         }
     }
+
+
+    public List<FilmeModel> buscarPorNome(String nome) {
+        String SQL = "SELECT * FROM tb_filme WHERE NOME LIKE ?";
+        List<FilmeModel> filmes = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            System.out.println("Success in database connection");
+
+            preparedStatement.setString(1, "%" + nome + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                FilmeModel filme = new FilmeModel();
+                filme.setId(rs.getInt("id_filme"));
+                filme.setNome(rs.getString("NOME"));
+                filme.setSinopse(rs.getString("SINOPSE"));
+                filme.setGenero(rs.getString("GENERO"));
+                filme.setBanner(rs.getBytes("BANNER"));
+                filme.setBannerFixo(rs.getBytes("BANNER_FIXO"));
+                filmes.add(filme);
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return filmes;
+    }
+
+
 }
+

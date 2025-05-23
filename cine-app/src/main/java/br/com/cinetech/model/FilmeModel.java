@@ -1,5 +1,7 @@
 package br.com.cinetech.model;
 
+import java.util.Base64;
+
 public class FilmeModel {
     private int id;
     private String nome;
@@ -27,6 +29,9 @@ public class FilmeModel {
         this.banner = banner;
         this.bannerFixo = bannerFixo;
         this.destaqueSemana = destacarSemana;
+    }
+
+    public FilmeModel() {
     }
 
     // Getters e Setters
@@ -69,7 +74,7 @@ public class FilmeModel {
     public void setBanner(byte[] banner) {
         this.banner = banner;
     }
-    
+
     public byte[] getBannerFixo() {
         return bannerFixo;
     }
@@ -78,11 +83,27 @@ public class FilmeModel {
         this.bannerFixo = bannerFixo;
     }
 
+
     public boolean isDestaqueSemana() {
         return destaqueSemana;
     }
 
     public void setDestaqueSemana(boolean destaqueSemana) {
         this.destaqueSemana = destaqueSemana;
+    }
+  
+    public String getBannerEncoded() {
+        if (banner != null) {
+            return Base64.getEncoder().encodeToString(banner);
+        }
+        return "";
+    }
+
+
+    public String getBannerFixoEncoded() {
+        if (bannerFixo != null) {
+            return Base64.getEncoder().encodeToString(bannerFixo);
+        }
+        return "";
     }
 }
