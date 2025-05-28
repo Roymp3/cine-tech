@@ -5,31 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="stylesheet" href="filme.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../menuLateral/menuLateral.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
-      <img src="../assets/images/imgfilme/iconCinetech.svg" alt="CineTech logo">
-       <a href="http://localhost:8080/" style="text-decoration:none"> <h1>CineTech</h1> </a>
+        <div class="logo">
+            <img src="../assets/images/pageCriarConta/iconCinetech.svg">
+            <a href="http://localhost:8080/" style="text-decoration:none"> <h1>CineTech</h1> </a>
+        </div>
 
- <div class="search-bar">
-  <input type="text" placeholder="Filmes, Atores, Series...">
-  <button type="submit">
-    <img src="../assets/images/imgfilme/search.svg" alt="search" class="search-icon">
-  </button>
-</div>
+        <form action="/pesquisaFilme" method="get" class="search-bar">
+            <input type="text" placeholder="Pesquisar filmes ou séries" name="search" />
+            <button type="submit" style="border:none; background-color: transparent"><i class="fas fa-search"></i></button>
+        </form>
 
+        <div id="ocultar" class="user-controls">
+            <i class="far fa-bell"></i>
+            <i onclick="abrirMenuLateral()" class="fas fa-bars"></i>
+        </div>
 
-    <div class="icons">
-    <img src="../assets/images/imgfilme/account_circle.svg" alt="icon">
-    <img src="../assets/images/imgfilme/menu.svg" alt="menu">
-</div>
-
-
-</header>
+        <div id="menuLateral"></div>
+    </header>
 
 <section class="filme-info">
       <img src="../assets/images/imgfilme/homemaranha.svg" alt="Poster Homem-Aranha" class="poster">
@@ -96,7 +97,89 @@
 </footer>
 
 <script src="filme.js"></script>
-<!-- Não precisamos de script adicional aqui, o filme.js já inicializa tudo quando a página carrega -->
+<script>
+    // Funções do menu lateral
+    function inicializarMenuLateral() {
+        preCarregarMenu();
+    }
 
+    function preCarregarMenu() {
+        fetch('../menuLateral/menuLateral.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Não foi possível carregar o menu lateral');
+                }
+                return response.text();
+            })
+            .catch(error => {
+                console.error('Erro ao carregar menu lateral:', error);
+            });
+    }
+
+    function abrirMenuLateral() {
+        const menu = document.getElementById('menuLateral');
+        
+        if (menu.classList.contains('active')) {
+            return fecharMenuLateral();
+        } else {
+            menu.classList.add('active');
+            fetch('../menuLateral/menuLateral.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Não foi possível carregar o menu lateral');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    menu.innerHTML = data;
+                    const overlay = document.createElement('div');
+                    overlay.className = 'menu-overlay';
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.background = 'rgba(0, 0, 0, 0.5)';
+                    overlay.style.zIndex = '999';
+                    overlay.addEventListener('click', fecharMenuLateral);
+                    menu.insertBefore(overlay, menu.firstChild);
+                    const botaoFechar = document.getElementById('btnFecharMenu');
+                    if (botaoFechar) {
+                        botaoFechar.addEventListener('click', fecharMenuLateral);
+                    }
+                    configurarLinksMenu();
+                      // Não precisamos adicionar um event listener para o botão de logout
+                    // O botão já possui um atributo onclick="clearLocalStorage()" que limpa o armazenamento local
+                    // E também tem o href="/logoutt" que faz a navegação para o servlet LogoutServlet
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar menu lateral:', error);
+                    menu.classList.remove('active');
+                });
+        }
+    }
+
+    function fecharMenuLateral() {
+        const menu = document.getElementById('menuLateral');
+        menu.classList.remove('active');
+        menu.innerHTML = '';
+    }
+
+    function configurarLinksMenu() {
+        const links = document.querySelectorAll('.menu-lateral a');
+        links.forEach(link => {
+            if (link.id !== 'logout') {
+                link.addEventListener('click', () => {
+                    // Nada aqui, apenas para garantir que os links funcionem normalmente
+                });
+            }
+        });
+    }
+
+    // Inicializar o menu lateral quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        inicializarMenuLateral();
+    });
+</script>
 </body>
 </html>

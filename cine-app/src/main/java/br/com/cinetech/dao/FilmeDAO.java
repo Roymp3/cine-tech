@@ -304,5 +304,37 @@ public class FilmeDAO {
     }
 
 
+    public FilmeModel GetFilmeById(int id) {
+        String SQL = "SELECT id_filme, nome, genero, sinopse, banner, banner_fixo, destaquedasemana FROM tb_filme WHERE id_filme = ?;";
+        FilmeModel filme = null;
+        
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+            System.out.println("Success in database connection");
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setInt(1, id);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                filme = new FilmeModel(
+                    resultSet.getInt("id_filme"),
+                    resultSet.getString("nome"),
+                    resultSet.getString("genero"),
+                    resultSet.getString("sinopse"),
+                    resultSet.getBytes("banner"),
+                    resultSet.getBytes("banner_fixo"),
+                    resultSet.getBoolean("destaquedasemana")
+                );
+            }
+            
+            System.out.println("Success in get filme by id");
+            return filme;
+            
+        } catch (Exception e) {
+            System.out.println("Error getting filme by id: " + e.getMessage());
+            return null;
+        }
+    }
 }
-

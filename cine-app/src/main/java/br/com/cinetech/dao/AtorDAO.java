@@ -281,4 +281,50 @@ public class AtorDAO {
         
         return atores;
     }
+
+    public List<AtorModel> GetAtoresByFilmeId(int filmeId) {
+        String SQL = "SELECT a.id_ator, a.nm_ator, a.ds_biografia, a.dt_nascimento, a.nm_nacionalidade, " +
+                     "a.ds_premios, a.ds_filmes_famosos, a.img_foto " +
+                     "FROM tb_ator a " +
+                     "JOIN tb_filme_ator fa ON a.id_ator = fa.id_ator " +
+                     "WHERE fa.id_filme = ?";
+        
+        List<AtorModel> atores = new ArrayList<>();
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "sa");
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            
+            preparedStatement.setInt(1, filmeId);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+                AtorModel ator = new AtorModel();
+                
+                ator.setIdAtor(resultSet.getInt("id_ator"));
+                ator.setNmAtor(resultSet.getString("nm_ator"));
+                ator.setDsBiografia(resultSet.getString("ds_biografia"));
+                ator.setDtNascimento(resultSet.getDate("dt_nascimento"));
+                ator.setNmNacionalidade(resultSet.getString("nm_nacionalidade"));
+                ator.setDsPremios(resultSet.getString("ds_premios"));
+                ator.setDsFilmesFamosos(resultSet.getString("ds_filmes_famosos"));
+                
+                // Obter dados da imagem (BLOB)
+                Blob blob = resultSet.getBlob("img_foto");
+                if (blob != null) {
+                    byte[] fotoBytes = blob.getBytes(1, (int) blob.length());
+                    ator.setFotoBytes(fotoBytes);
+                }
+                
+                atores.add(ator);
+            }
+            
+            return atores;
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar atores por ID de filme: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

@@ -81,11 +81,12 @@ botaoSalvar.addEventListener('click', function() {
     if (!nomeFilme || !generoFilme) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
-    }    if (!imageInput.files[0]) {
+    }    // Verificar as imagens apenas se não estivermos no modo de edição ou se novas imagens foram fornecidas
+    if (!modoEdicao && !imageInput.files[0]) {
         alert('Por favor, selecione uma imagem para o cartaz do filme.');
         return;
     }
-      if (!imageInputFixo.files[0]) {
+    if (!modoEdicao && !imageInputFixo.files[0]) {
         alert('Por favor, selecione uma imagem para o banner do filme.');
         return;
     }
@@ -94,11 +95,15 @@ botaoSalvar.addEventListener('click', function() {
         alert('Por favor, adicione pelo menos um ator ao filme.');
         return;
     }
+      // Mensagem de confirmação baseada no modo
+    const mensagemConfirmacao = modoEdicao ? 
+        'Você está prestes a atualizar este filme. Deseja continuar?' : 
+        'Você está prestes a cadastrar um novo filme. Deseja continuar?';
     
-    const confirmarEnvio = confirm('Você está prestes a cadastrar um novo filme. Deseja continuar?');
+    const confirmarEnvio = confirm(mensagemConfirmacao);
     if (!confirmarEnvio) {
         return;
-    }    const formData = new FormData();
+    }const formData = new FormData();
     formData.append('nome', nomeFilme);
     formData.append('sinopse', sinopseFilme);
     formData.append('genero', generoFilme);
@@ -109,28 +114,34 @@ botaoSalvar.addEventListener('click', function() {
     // Processamos os atores, separando os existentes dos novos
     const atoresExistentes = atoresSelecionados.filter(ator => !ator.novo).map(a => a.id);
     const atoresNovos = atoresSelecionados.filter(ator => ator.novo).map(a => a.nome);
-    
-    // Adicionar os atores ao formulário
+      // Adicionar os atores ao formulário
     formData.append('atoresExistentesIds', JSON.stringify(atoresExistentes));
     formData.append('atoresNovos', JSON.stringify(atoresNovos));
 
-    fetch('http://localhost:8080/cadastrarFilme', {
+    // Se estiver no modo de edição, adicionar o ID do filme
+    if (modoEdicao && filmeIdEmEdicao) {
+        formData.append('idFilme', filmeIdEmEdicao);
+    }
+
+    // URL baseada no modo (edição ou cadastro)
+    const url = modoEdicao ? '/atualizarFilme' : '/cadastrarFilme';
+    
+    fetch(url, {
         method: 'POST',
         body: formData
     })
-        .then(data => {
-            if(data.ok){
-                document.getElementById('modalSucesso').style.display = 'flex';
+    .then(response => {
+        if (response.ok) {
+            document.getElementById('modalSucesso').style.display = 'flex';
+            
+            if (!modoEdicao) {
                 limparFormulario();
             }
-        })
-        .then(response => {
-            console.log(response);
-            if (!response.ok) {
-                throw new Error('Erro ao cadastrar o filme');
-            }
             return response.json();
-        })
+        } else {
+            throw new Error('Erro ao ' + (modoEdicao ? 'atualizar' : 'cadastrar') + ' o filme');
+        }
+    })
 
 
 });
@@ -415,4 +426,84 @@ document.addEventListener('DOMContentLoaded', function() {
             atoresForm.classList.remove('focused');
         }, 200);
     });
+});
+
+// Variável para controlar o modo de edição
+let modoEdicao = false;
+let filmeIdEmEdicao = null;
+
+// Função para verificar se é modo de edição e carregar dados
+function verificarModoEdicao() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modo = urlParams.get('modo');
+    const id = urlParams.get('id');
+    
+    if (modo === 'editar' && id) {
+        modoEdicao = true;
+        filmeIdEmEdicao = id;
+        carregarDadosFilme(id);
+        
+        // Atualizar título da página e do botão
+        document.querySelector('.main-title').textContent = 'Edição de Filme';
+        document.querySelector('#btnEnviar').textContent = 'Atualizar Filme';
+    }
+}
+
+// Carregar dados do filme para edição
+function carregarDadosFilme(id) {
+    fetch(`/buscarFilmePorId?idFilme=${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao buscar dados do filme');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.filme) {
+                preencherFormulario(data.filme, data.atores);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar dados do filme:', error);
+            alert('Não foi possível carregar os dados do filme para edição.');
+        });
+}
+
+// Preencher o formulário com os dados do filme
+function preencherFormulario(filme, atores) {
+    document.getElementById('nomeFilme').value = filme.nome || '';
+    document.getElementById('sinopseFilme').value = filme.sinopse || '';
+    document.getElementById('generoFilme').value = filme.genero || '';
+    document.getElementById('destaqueSemana').checked = filme.destaqueSemana || false;
+    
+    // Preencher imagens se disponíveis
+    if (filme.bannerBase64) {
+        divImagem.style.backgroundImage = `url(data:image/jpeg;base64,${filme.bannerBase64})`;
+        uploadIcon.style.opacity = '0';
+        removerImagem.style.display = 'block';
+    }
+    
+    if (filme.bannerFixoBase64) {
+        divImagemFixo.style.backgroundImage = `url(data:image/jpeg;base64,${filme.bannerFixoBase64})`;
+        uploadIconFixo.style.opacity = '0';
+        removerImagemFixo.style.display = 'block';
+    }
+    
+    // Limpar atores selecionados e adicionar os do filme
+    atoresSelecionados = [];
+    if (atores && atores.length > 0) {
+        atores.forEach(ator => {
+            atoresSelecionados.push({
+                id: ator.idAtor,
+                nome: ator.nmAtor,
+                novo: false
+            });
+        });
+    }
+    atualizarAtoresSelecionados();
+}
+
+// Executar ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    verificarModoEdicao();
 });

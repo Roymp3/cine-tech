@@ -4,23 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CineTech - Painel de Administração</title>
+    <link rel="stylesheet" href="pageDashboardAdmin.css">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../menuLateral/menuLateral.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="pageDashboardAdmin.css">
 </head>
 <body>
 <header>
     <div class="logo">
-        <i class="fas fa-film"></i>
-        <span>CineTech</span>
+        <img src="../assets/images/pageCriarConta/iconCinetech.svg">
+        <a href="http://localhost:8080/" style="text-decoration:none"> <h1>CineTech</h1> </a>
     </div>
-    <div class="user-status">
-        VOCÊ ESTÁ LOGADO COMO ADMINISTRADOR DO CINETECH
+
+    <div class="admin-status">
+        <h2>VOCÊ ESTÁ LOGADO COMO ADMINISTRADOR DO CINETECH</h2>
     </div>
-    <div class="share-icon">
-        <i class="fas fa-share-square"></i>
+
+    <div id="ocultar" class="user-controls">
+        <i onclick="abrirMenuLateral()" class="fas fa-bars"></i>
     </div>
+
+    <div id="menuLateral"></div>
 </header>
+
+<style>
+    .admin-status {
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .admin-status h2 {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 0;
+    }
+    
+    header {
+        background-color: #494850;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        color: white;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo h1 {
+        color: #FFF;
+        font-family: "Inria Sans";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-left: 10px;
+    }
+    
+    .user-controls {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .user-controls i {
+        font-size: 24px;
+        cursor: pointer;
+    }
+</style>
 
 <div class="main-content">
     <h1>Informações Gerais</h1>
@@ -143,5 +198,87 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Funções do menu lateral
+    function inicializarMenuLateral() {
+        preCarregarMenu();
+    }
+
+    function preCarregarMenu() {
+        fetch('../menuLateral/menuLateral.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Não foi possível carregar o menu lateral');
+                }
+                return response.text();
+            })
+            .catch(error => {
+                console.error('Erro ao carregar menu lateral:', error);
+            });
+    }
+
+    function abrirMenuLateral() {
+        const menu = document.getElementById('menuLateral');
+        
+        if (menu.classList.contains('active')) {
+            return fecharMenuLateral();
+        } else {
+            menu.classList.add('active');
+            fetch('../menuLateral/menuLateral.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Não foi possível carregar o menu lateral');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    menu.innerHTML = data;
+                    const overlay = document.createElement('div');
+                    overlay.className = 'menu-overlay';
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.background = 'rgba(0, 0, 0, 0.5)';
+                    overlay.style.zIndex = '999';
+                    overlay.addEventListener('click', fecharMenuLateral);
+                    menu.insertBefore(overlay, menu.firstChild);
+                    const botaoFechar = document.getElementById('btnFecharMenu');
+                    if (botaoFechar) {
+                        botaoFechar.addEventListener('click', fecharMenuLateral);
+                    }
+                    configurarLinksMenu();
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar menu lateral:', error);
+                    menu.classList.remove('active');
+                });
+        }
+    }
+
+    function fecharMenuLateral() {
+        const menu = document.getElementById('menuLateral');
+        menu.classList.remove('active');
+        menu.innerHTML = '';
+    }
+
+    function configurarLinksMenu() {
+        const links = document.querySelectorAll('.menu-lateral a');
+        links.forEach(link => {
+            if (link.id !== 'logout') {
+                link.addEventListener('click', () => {
+                    // Nada aqui, apenas para garantir que os links funcionem normalmente
+                });
+            }
+        });
+    }
+
+    // Inicializar o menu lateral quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        inicializarMenuLateral();
+    });
+</script>
 </body>
 </html>
